@@ -1,0 +1,43 @@
+.containerGame {
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    height: 100vh;
+}
+#cash {
+    position: absolute;
+    padding: 10px;
+    left: 34vw;
+    top: 60px;
+    width: 31%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 10px rgba(0, 0, 255, 0.8), 0 0 10px rgba(0, 255, 0, 0.8);
+}
+#UpgradeShopScreen{
+    
+    background-color: rgb(100, 224, 156);
+    position: absolute;
+    left: 18vw;
+    top: 30vh;
+    color: white;
+    z-index: 1001;
+    height: 350px;
+    width: 1000px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.8);
+    
+}
+
+.container-items{
+    margin: 10px 10px;
+    
+}
+.item{
+    margin: 15px 10px;
+    /* border: 1px solid white; */
+    height: 30px;
+}
+.upgrade-btn {
+    font-size: 14px; /* Adjust the font size as needed */
+    padding: 6px 12px; /* Adjust padding as needed */
+    margin-top: -10px; /* Adjust margin-top to move the button up */
+}

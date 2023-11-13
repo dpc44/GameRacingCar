@@ -1,0 +1,602 @@
+.containerGame {
+    background-image: url('../img/bg.jpg');
+    background-size: cover;
+    
+}
+
+#heartHp {
+    position: absolute;
+    top: 50px;
+    left: 170px;
+    text-align: center;
+    width: 200px;
+    line-height: 55px;
+    border-radius: 5px;
+    font-size: 2.5em;
+
+}
+
+#score {
+    position: absolute;
+    top: 100px;
+    left: 170px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+
+}
+#cash{
+    position: absolute;
+    top: 100px;
+    left: 1130px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+}
+#UpgradeShop{
+    position: absolute;
+    top: 150px;
+    left: 1130px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em; 
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#UpgradeShop:hover{
+    
+    background-color: rgb(21, 184, 94);
+    transition: background-color 0.3s;
+}
+#X2Text {
+    position: absolute;
+    top: 100px;
+    left: 300px;
+    text-align: center;
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+#level {
+    position: absolute;
+    top: 150px;
+    left: 170px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+}
+
+#best {
+    position: absolute;
+    top: 200px;
+    left: 170px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+}
+
+#GoalScore {
+    position: absolute;
+    top: 250px;
+    left: 170px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+}
+
+#boardTime {
+    position: absolute;
+    top: 300px;
+    left: 170px;
+    text-align: center;
+    justify-content: center;
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+    background-color: rgba(209, 201, 201, 0.1);
+    box-shadow: 0 0 20px rgb(255, 255, 255), 0 0 20px rgba(255, 165, 0, 0.8);
+    height: 100px;
+}
+
+
+#TimeClock {
+    font-size: 50px;
+    margin: 30px 0;
+}
+
+#GameOverScreen,
+#GameStartScreen,
+#PauseScreen {
+    background-color: rgb(100, 224, 156);
+    position: absolute;
+    left: 34vw;
+    top: 20vh;
+    text-align: center;
+    color: white;
+    z-index: 1001;
+    height: 250px;
+    width: 460px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 25px rgba(255, 255, 255, 0.8);
+    display: none;
+}
+#GameStartScreen #TagTilte {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 50px;
+    position: relative;
+    top: -80px;
+}
+
+#content {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#RetryButton,#ResumeButton {
+    margin-top: 5px;
+}
+
+#ScoreLine,
+#ScoreLinePause {
+    font-size: 20px;
+}
+
+#TagTilte {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 50px;
+    position: relative;
+    top: -75px;
+}
+
+#TagTilte::before,
+#TagTilte::after {
+    content: "";
+    position: absolute;
+    width: 115%;
+    height: 3px;
+    background-color: white;
+    left: -10px;
+
+}
+
+#TagTilte::before {
+    top: 0%;
+
+}
+
+#TagTilte::after {
+    top: 100%;
+
+}
+
+.road {
+    width: 400px;
+    height: 100vh;
+    margin: auto;
+    position: relative;
+    border-left: 7px dashed white;
+    border-right: 7px dashed white;
+    background-color: black;
+}
+
+.car {
+    width: 50px;
+    height: 100px;
+    /* background-color: black; */
+    position: absolute;
+    bottom: 120px;
+    left: 180px;
+    background-image: url('../img/blue.png');
+    background-size: cover;
+    transform: rotate(180deg);
+    z-index: 1000;
+}
+
+.vehicle {
+    width: 50px;
+    height: 100px;
+    /* background-color: black; */
+    position: absolute;
+    bottom: 120px;
+    background-image: url('./img/blue.png');
+    background-size: cover;
+}
+.police {
+    width: 50px;
+    height: 100px;
+    position: absolute;
+    bottom: 120px;
+    background-image: url('../img/CanhSat.png');
+    background-size: cover;
+}
+.gas {
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/gas2.png');
+    background-size: cover;
+    position: absolute;
+    bottom: 120px;
+}
+
+.star {
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/star.png');
+    background-size: cover;
+    position: absolute;
+    bottom: 120px;
+    background-color: aquamarine;
+    border-radius: 50%;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(241, 11, 11, 0.8), 0 0 10px rgb(204, 255, 0);
+    /* Increased opacity */
+}
+
+.starX2 {
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/star.png');
+    background-size: cover;
+    position: absolute;
+    bottom: 120px;
+    background-color: rgb(246, 255, 0);
+    border-radius: 50%;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(241, 11, 11, 0.8), 0 0 10px rgb(255, 255, 255);
+    /* Increased opacity */
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.rainbow {
+    background: linear-gradient(135deg,
+            #ff00d2, #fed90f, #00a2ff, #09f1b8,
+            #ff00d2, #fed90f, #00a2ff, #09f1b8);
+    background-size: 200vw 200vw;
+    /* -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; */
+    animation: loop 7s infinite ease-in-out;
+}
+
+.rainbowText {
+    background: linear-gradient(135deg,
+            #ff00d2, #fed90f, #00a2ff, #09f1b8,
+            #ff00d2, #fed90f, #00a2ff, #09f1b8);
+    background-size: 200vw 200vw;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    animation: loop 7s infinite ease-in-out;
+}
+
+@keyframes loop {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gas-fade,
+.heart-fade,
+.star-fade,
+.money-fade,
+.barrier-fade {
+    animation: fade 1s infinite;
+    /* 1s is the duration of the animation, infinite makes it loop */
+}
+
+.riskWater {
+    color: #26770f;
+    font-size: 40px;
+    background-color: #37ff00;
+    border-radius: 38%;
+}
+
+.riskBomb{
+    font-size: 40px;
+    color: rgb(255, 0, 242);
+}
+.line {
+    width: 10px;
+    height: 100px;
+    position: absolute;
+    margin-left: 195px;
+    background-color: white;
+}
+
+
+
+.timer {
+    width: 400px;
+    height: 20px;
+    border: 1px solid #000;
+    position: relative;
+    top: -500px;
+    margin-left: 60px;
+}
+
+.board {
+    width: 400px;
+    height: 20px;
+    border: 1px solid #000;
+    position: relative;
+    top: -500px;
+    margin-left: 60px;
+}
+
+.progressTimer {
+    height: 100%;
+    background-color: #4caf50;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 1s linear;
+}
+
+.timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    /* Adjust font size as needed */
+}
+
+
+.guideSection {
+
+    position: absolute;
+    left: 68vw;
+    top: 10vh;
+    text-align: center;
+    color: white;
+    z-index: 1001;
+    height: 80%;
+    width: 400px;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: rgba(255, 255, 255, 0.8) 0px 4px 25px;
+}
+
+.guideSection .movementImg {
+    width: 90%;
+    position: absolute;
+    left: 15px;
+    top: -45px;
+}
+
+.guideSection .movementText {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    left: -5px;
+    top: 265px;
+    font-size: 30px;
+}
+
+
+.guideSection .maxSpeedImg {
+    width: 45%;
+    position: absolute;
+    left: 83px;
+    top: 310px;
+}
+
+
+.guideSection .maxSpeedText {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    left: -5px;
+    top: 545px;
+    font-size: 30px;
+}
+
+
+.barrier {
+
+    display: none;
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 20px rgba(0, 0, 255, 0.8);
+    /* Increased opacity */
+}
+
+
+
+
+/* CSS */
+.button-19 {
+    /* appearance: button; */
+    background-color: #1899D6;
+    border: solid transparent;
+    border-radius: 20px;
+    border-width: 4px 4px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    /* font-family: din-round,sans-serif; */
+    /* font-size: 12px; */
+    font-weight: 700;
+    /* letter-spacing: -0.2px; */
+    line-height: 10px;
+    /* margin: 0; */
+    /* outline: none; */
+    overflow: visible;
+    padding: 13px 16px;
+    text-align: center;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    transform: translateZ(0);
+    transition: filter .2s;
+    user-select: none;
+    /* -webkit-user-select: none; */
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 45%;
+    position: absolute;
+    top: 80%;
+}
+
+.button-19:after {
+    background-clip: padding-box;
+    background-color: #1CB0F6;
+    border: solid transparent;
+    border-radius: 16px;
+    border-width: 0 0 4px;
+    bottom: -4px;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+.button-19:main,
+.button-19:focus {
+    user-select: auto;
+}
+
+.button-19:hover:not(:disabled) {
+    filter: brightness(1.1);
+    -webkit-filter: brightness(1.1);
+}
+
+.button-19:disabled {
+    cursor: auto;
+}
+
+.button-19:active {
+    border-width: 4px 0 0;
+    background: none;
+}
+
+
+#BackButton {
+    left: 0;
+    top: 82%;
+}
+
+#BackButton,
+#RetryButton {
+    margin-left: 12px;
+}
+
+/*--------------select----------------*/
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #1e9b82;
+    background-image: none;
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    background: #1e9b82;
+    overflow: hidden;
+    border-radius: .25em;
+    margin-bottom: 10px;
+
+}
+
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #05855e;
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s all ease;
+}
+
+.select:hover::after {
+    color: #23b499;
+}
+
+.selectSection {
+    position: absolute;
+    top: 85px;
+}
+

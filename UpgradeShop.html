@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade Shop</title>
+    <link rel="stylesheet" href="./style/index2.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="containerGame">
+        
+        <h1 class="CashUpgrade text-light text-center bg-dark border border-2 border-light " id="cash">Cash:
+            1000</h1>
+
+
+
+
+
+        <div id="UpgradeShopScreen">
+            <h1 style="text-align: center; font-weight: bold; color: #000;">Upgrade Shop</h1>
+            <div class="container-items">
+                <div style="margin-top: 50px; height: 100%;">
+                    <div class="item" style="background-color: rgb(73, 141, 54);">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-center">Name</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center">Level</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center">Effect</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-center">Cash</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-center text-dark">Shield</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="shieldLevel">Level 1</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="shieldEffect">5%</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-center text-dark" id="shieldMoney">1000</p>
+                            </div>
+                            <div class="col-2">
+                                <div class="btn btn-primary text-center upgrade-btn" id="shieldBtn"
+                                    onclick="upgrade('shield')">
+                                    Upgrade
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-center text-dark">X2 Point</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="x2pointLevel">Level 1</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="x2pointEffect">5%</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-center text-dark" id="x2pointMoney">1000</p>
+                            </div>
+                            <div class="col-2">
+                                <div class="btn btn-primary text-center upgrade-btn" id="x2Btn"
+                                    onclick="upgrade('x2point')">
+                                    Upgrade
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-3">
+                                <p class="text-center text-dark">Bonus Point</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="bonuspointLevel">Level 1</p>
+                            </div>
+                            <div class="col-2">
+                                <p class="text-center text-dark" id="bonuspointEffect">5%</p>
+                            </div>
+                            <div class="col-3">
+                                <p class="text-center text-dark" id="bonuspointMoney">1000</p>
+                            </div>
+                            <div class="col-2">
+                                <div class="btn btn-primary text-center upgrade-btn" id="bonusBtn"
+                                    onclick="upgrade('bonuspoint')">
+                                    Upgrade
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttonContainer text-center" style="margin-top: 30px;">
+
+                    <a href="./index.html" class="btn btn-success" style="vertical-align: middle;"
+                        id="closeShopBtn">Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/index.js"></script>
+    <script src="./js/index2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
