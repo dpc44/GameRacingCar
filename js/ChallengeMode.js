@@ -277,6 +277,7 @@ function endGame() {
     document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
     GameOverScreen.style.display = 'block';
     let CashValue = (counter * 5) + parseInt(startCashNumber, 10);
+    
     setStore(storageCash, CashValue)
     UpdateCash();
     clearStats();

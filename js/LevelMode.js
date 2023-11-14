@@ -18,16 +18,25 @@ function finishGame() {
     if (counter * 10 >= finishedConditionArray[currentSelectedLevel]) {
         BestScoreLevelMode[currentSelectedLevel] = formatTime(Date.now() - startCountTime);
 
-
+        console.log(BestScoreLevelMode)
 
         if (localStorage.getItem(storageLevelMode) !== null) {
+            
             let checkvalue = getStore(storageLevelMode);
-            let finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
+            let finalValue;
+            if(checkvalue[currentSelectedLevel] === "00:00"){
+                finalValue = BestScoreLevelMode[currentSelectedLevel];
+            }else{
+                finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
+            }
+            
             BestScoreLevelMode[currentSelectedLevel] = finalValue;
+
+            
             setStore(storageLevelMode, BestScoreLevelMode)
 
         } else {
-
+            
             setStore(storageLevelMode, BestScoreLevelMode)
         }
         endGame()

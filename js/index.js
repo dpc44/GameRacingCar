@@ -59,8 +59,8 @@ let startCountTime;
 let isSlow = false;
 let hearts = 3;
 
-let BestScoreLevelMode = ["00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"];
-let BestScoreChallengeMode = 0;
+var BestScoreLevelMode = ["00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"];
+var BestScoreChallengeMode = 0;
 //-----new Interval-------
 let starInterval;
 let timerInterval;
