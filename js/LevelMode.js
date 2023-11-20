@@ -1,3 +1,56 @@
+import {
+     CreateRisk,
+     MoveRisk,
+     UsedHeartTime,
+     UsedMoneyTime,
+     UsedRiskTime,
+     UsedStarTime,
+     clearInternalRemaining,
+      createMoney,
+      createstar,
+      endGame,
+      getMoney,
+      getRandomPosition, 
+      getRandomUniqueNumber, 
+      getStar, 
+      heartInterval,
+       moneyInterval, 
+       moveVehicles, 
+       movelines, 
+       riskInterval, 
+       setCountHeartTime, 
+       setCountMoneyTime, 
+       setCountRiskTime, 
+       setCountStarTime, 
+       setCountTimerInterval, 
+       setHeartInterval, 
+       setMoneyInterval, 
+       setRiskInterval, 
+       setStarInterval, 
+       starInterval, 
+       turnOffInternal,
+       updateCountTime} from "./ChallengeMode.js";
+import { BestScoreLevelMode, 
+    carColor, 
+    counter, 
+    currentSelectedLevel, 
+    enemyLevelArray, 
+    finishedConditionArray, 
+    getStore, 
+    hearts, 
+    keys, 
+    player, 
+    previousRandomNumbersLeft, 
+    previousRandomNumbersRight, 
+    randomRisk, 
+    randomStar, 
+    roadarea, 
+    setBestScoreLevelMode, 
+    setHearts, 
+    setPlayer, 
+    setStore, 
+    startCountTime, 
+    storageLevelMode } from "./index.js";
 
 function compareTimes(time1, time2) {
     const [minutes1, seconds1] = time1.split(':').map(Number);
@@ -12,14 +65,21 @@ function compareTimes(time1, time2) {
     }
 }
 
+function formatTime(currentTime) {
+    let minutes = Math.floor(currentTime / (1000 * 60));
+    let seconds = Math.floor((currentTime % (1000 * 60)) / 1000);
+
+    // Ensure that minutes and seconds are always two digits
+    minutes = String(minutes).padStart(2, '0');
+    seconds = String(seconds).padStart(2, '0');
+
+    return `${minutes}:${seconds}`;
+}
 
 function finishGame() {
 
     if (counter * 10 >= finishedConditionArray[currentSelectedLevel]) {
-        BestScoreLevelMode[currentSelectedLevel] = formatTime(Date.now() - startCountTime);
-
-        console.log(BestScoreLevelMode)
-
+        setBestScoreLevelMode(currentSelectedLevel, formatTime(Date.now() - startCountTime))
         if (localStorage.getItem(storageLevelMode) !== null) {
             
             let checkvalue = getStore(storageLevelMode);
@@ -29,10 +89,7 @@ function finishGame() {
             }else{
                 finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
             }
-            
-            BestScoreLevelMode[currentSelectedLevel] = finalValue;
-
-            
+            setBestScoreLevelMode(currentSelectedLevel,finalValue )
             setStore(storageLevelMode, BestScoreLevelMode)
 
         } else {
@@ -66,7 +123,7 @@ function createHeartPoint() {
 
 function getHeartPoint(playerCar, heart) {
 
-    playerCarBound = playerCar.getBoundingClientRect();
+    let playerCarBound = playerCar.getBoundingClientRect();
     let heartBound = heart.getBoundingClientRect();
 
     if (!(playerCarBound.bottom < heartBound.top ||
@@ -77,12 +134,12 @@ function getHeartPoint(playerCar, heart) {
         if (hearts < 3) {
             let heartsIcons = document.querySelectorAll('.far.fa-heart');
             heartsIcons[0].classList.replace('far', 'fas');
-            hearts++;
+            setHearts(hearts+1);
         }
         heart.remove();
     }
 }
-function playerarea2() {
+export function playerarea2() {
     
     let playerCar = document.querySelector('.car');
     let barrier = document.querySelector('.barrier');
@@ -108,21 +165,20 @@ function playerarea2() {
     finishGame();
     if (player.start && player.pause == false) {
         if (!starInterval) {
-            starInterval = setInterval(createstar, 16000 - UsedStarTime);
-            CountStarTime = Date.now();
+            setStarInterval(setInterval(createstar, 16000 - UsedStarTime))
+            setCountStarTime(Date.now())
         }
         if (!heartInterval) {
-            heartInterval = setInterval(createHeartPoint, 9000 - UsedHeartTime );
-            CountHeartTime = Date.now();
+            setHeartInterval(setInterval(createHeartPoint, 9000 - UsedHeartTime ))
+            setCountHeartTime(Date.now())
         }
         if (!moneyInterval) {
-            
-            moneyInterval = setInterval(createMoney, 16000 - UsedMoneyTime);
-            CountMoneyTime = Date.now();
+            setMoneyInterval(setInterval(createMoney, 16000 - UsedMoneyTime))
+            setCountMoneyTime(Date.now())
         }
         if (!riskInterval) {
-            riskInterval = setInterval(CreateRisk, 15000 - UsedRiskTime);
-            CountRiskTime = Date.now();
+            setRiskInterval(setInterval(CreateRisk, 15000 - UsedRiskTime))
+            setCountRiskTime(Date.now())
         }
         movelines();
         moveVehicles(playerCar)
@@ -142,22 +198,20 @@ function playerarea2() {
             MoveRisk(playerCar, risk);
         }
         if (keys.w && player.y > (road.top + 20)) {
-            player.y = player.y - playerSpeedArray[currentSelectedLevel];
+            setPlayer("y", player.y - player.speed)
 
         }
+
         if (keys.s && player.y < (roadarea.clientHeight - 120)) {
-
-            player.y = player.y + playerSpeedArray[currentSelectedLevel];
-
+            setPlayer("y", player.y + player.speed)
         }
 
         if (keys.a && player.x > 0) {
-            player.x = player.x - playerSpeedArray[currentSelectedLevel];
-
+            setPlayer("x", player.x - player.speed)
         }
 
         if (keys.d && player.x < (road.width - 64)) {
-            player.x = player.x + playerSpeedArray[currentSelectedLevel];
+            setPlayer("x", player.x + player.speed)
 
         }
         playerCar.style.top = player.y + 'px'
@@ -181,16 +235,14 @@ function playerarea2() {
     }
 }
 
-function init2() {
+export function init2() {
     // Clear the HTML content of the roadarea
     roadarea.innerHTML = "";
     
     // Set the player's start status to true
-    player.start = true;
-
+    setPlayer('start', true);
     // Set up the interval for updating the count time
-    countTimerInterval = setInterval(updateCountTime, 1000);
-
+    setCountTimerInterval(setInterval(updateCountTime, 1000))
     // Request animation frame for the playerarea2 function
     window.requestAnimationFrame(playerarea2);
 
@@ -200,8 +252,8 @@ function init2() {
     roadarea.appendChild(playerCar);
 
     // Set initial player position (same as your original code)
-    player.x = playerCar.offsetLeft;
-    player.y = playerCar.offsetTop;
+    setPlayer('x', playerCar.offsetLeft)
+    setPlayer('y', playerCar.offsetTop)
 
     // Create road lines (same as your original code)
     for (var i = 0; i < 5; i++) {
@@ -220,8 +272,8 @@ function init2() {
         vehicles.setAttribute('data-id', x + 1);
         vehicles.y = ((x + 1) * 300) * -1;
         vehicles.style.top = vehicles.y + 'px';
-        vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft) * 52
-            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight) * 50) + 'px';
+        vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft, 'left') * 52
+            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight, 'right') * 50) + 'px';
         let rotation = x % 2 === 0 ? 'rotate(180deg)' : 'none';
         vehicles.style.backgroundImage = `url(./img/${carColor[randomColor]}.png)`;
         vehicles.style.transform = rotation;

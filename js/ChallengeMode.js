@@ -1,3 +1,4 @@
+import { init2, playerarea2 } from "./LevelMode.js";
 import {
     setStore,
     getStore,
@@ -228,7 +229,7 @@ export function setTimerPaused(value) {
     timerPaused = value;
 }
 //-----------------------------------------
-function clearInternalRemaining() {
+export function clearInternalRemaining() {
 
     if (UsedGasTime !== 0) {
         clearInterval(gasInterval);
@@ -266,7 +267,7 @@ function clearInternalRemaining() {
 
 }
 
-function turnOffInternal() {
+export function turnOffInternal() {
     clearInterval(starInterval);
     starInterval = null;
     clearInterval(heartInterval);
@@ -324,7 +325,7 @@ function resetHeart() {
         icon.classList.replace('far', 'fas');
     });
 }
-function updateCountTime() {
+export function updateCountTime() {
     let currentTime = Date.now() - startCountTime;
     let minutes = Math.floor(currentTime / (1000 * 60));
     let seconds = Math.floor((currentTime % (1000 * 60)) / 1000);
@@ -354,16 +355,7 @@ function toggleTimerPause() {
     }
 }
 
-function formatTime(currentTime) {
-    let minutes = Math.floor(currentTime / (1000 * 60));
-    let seconds = Math.floor((currentTime % (1000 * 60)) / 1000);
 
-    // Ensure that minutes and seconds are always two digits
-    minutes = String(minutes).padStart(2, '0');
-    seconds = String(seconds).padStart(2, '0');
-
-    return `${minutes}:${seconds}`;
-}
 
 function resume() {
     //---------pause--------------
@@ -473,7 +465,7 @@ function resume() {
 
     }
 }
-function endGame() {
+export function endGame() {
 
     setPlayer('start', false);
     document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
@@ -505,7 +497,7 @@ function endGame() {
     setCounter(0);
 
 }
-function getRandomUniqueNumber(number, previousNumbers, side) {
+export function getRandomUniqueNumber(number, previousNumbers, side) {
     let randomNum;
 
     do {
@@ -545,7 +537,7 @@ function handleMouseDown(event) {
     if (event.button === 0) {
         setMouseDown(true);
         if (isSlow == false) {
-            
+
             if (selectedValue == 0) {
 
                 let maxSpeed = player.maxSpeed;
@@ -581,7 +573,7 @@ function handleMouseUp(event) {
     }
 }
 //------------------------Move Game Play----------------
-function movelines() {
+export function movelines() {
     let roadlines = document.querySelectorAll('.line');
 
     roadlines.forEach(function (item) {
@@ -620,7 +612,7 @@ function createVehicle(customX) {
 }
 //-------stop-------
 
-function moveVehicles(playerCar) {
+export function moveVehicles(playerCar) {
     let vehicles = document.querySelectorAll('.vehicle');
     let barrier = document.querySelector('.barrier');
     let barrierBound = null;
@@ -792,7 +784,7 @@ function getGas(playerCar) {
     }
 }
 
-function getStar(playerCar, star) {
+export function getStar(playerCar, star) {
 
     let playerCarBound = playerCar.getBoundingClientRect()
     let starBound = star.getBoundingClientRect();
@@ -818,7 +810,7 @@ function getStar(playerCar, star) {
     }
 }
 
-function getMoney(playerCar, money) {
+export function getMoney(playerCar, money) {
 
     let playerCarBound = playerCar.getBoundingClientRect()
     let moneyBound = money.getBoundingClientRect();
@@ -843,7 +835,7 @@ function getMoney(playerCar, money) {
 
 }
 
-function MoveRisk(playerCar, risk) {
+export function MoveRisk(playerCar, risk) {
     let x;
     if (selectedValue == 0) {
         x = numberOfEnemy[LevelEnemy] + 1;
@@ -855,8 +847,17 @@ function MoveRisk(playerCar, risk) {
         risk.remove();
         UsedRiskTime = 0;
     }
+
     if (randomRisk == 0) {
-        currentTop = currentTop + riskSpeed;
+        if (selectedValue == 0) {
+            currentTop = currentTop + riskSpeed;
+        }
+        else {
+            let newSpeed = x % 2 === 0 ? enemySpeedArray[currentSelectedLevel] - 0.5 : enemySpeedArray[currentSelectedLevel];
+            currentTop = currentTop + riskSpeed;
+
+        }
+
     }
     else if (randomRisk == 1) {
         if (selectedValue == 0) {
@@ -864,7 +865,8 @@ function MoveRisk(playerCar, risk) {
 
             currentTop = currentTop + newSpeed;
 
-        } else {
+        }
+        else {
             let newSpeed = x % 2 === 0 ? enemySpeedArray[currentSelectedLevel] - 0.5 : enemySpeedArray[currentSelectedLevel];
             currentTop = currentTop + newSpeed;
 
@@ -872,7 +874,6 @@ function MoveRisk(playerCar, risk) {
     }
 
     risk.style.top = currentTop + 'px';
-
     let playerCarBound = playerCar.getBoundingClientRect()
     let riskBound = risk.getBoundingClientRect();
     if (!(playerCarBound.bottom < riskBound.top ||
@@ -900,7 +901,6 @@ function MoveRisk(playerCar, risk) {
 
 function playerarea() {
     let playerCar = document.querySelector('.car');
-    console.log(playerCar)
     let barrier = document.querySelector('.barrier');
     let gas = document.querySelector('.gas');
     let star;
@@ -1001,7 +1001,7 @@ function playerarea() {
     }
 }
 
-function getRandomPosition(objectWidth, ObjectHeight) {
+export function getRandomPosition(objectWidth, ObjectHeight) {
     let maxX = roadarea.clientWidth - objectWidth; // Adjust for the width of the gas element
     let maxY = roadarea.clientHeight - (ObjectHeight + 50); // Adjust for the height of the gas element
 
@@ -1021,7 +1021,7 @@ function createGas() {
     clearInternalRemaining();
 
     setTimeout(() => {
-            gas.remove();
+        gas.remove();
     }, 8000);
 
     setTimeout(() => {
@@ -1029,7 +1029,7 @@ function createGas() {
     }, 5000);
 }
 
-function createMoney() {
+export function createMoney() {
     let money = document.createElement('i');
     money.classList.add('fas', 'fa-dollar-sign', 'moneyPoint');
     money.style.color = '#fff700';
@@ -1048,14 +1048,16 @@ function createMoney() {
         money.classList.add('money-fade');
     }, 5000);
 }
-function CreateRisk() {
+export function CreateRisk() {
     let risk;
     setRandomRisk(Math.floor(Math.random() * 2))
     if (randomRisk == 0) {
+        console.log("create 0")
         risk = document.createElement('i');
         risk.classList.add('fas', 'fa-water', 'riskWater');
         risk.style.left = Math.floor(Math.random() * 350) + 'px';
     } else if (randomRisk == 1) {
+        console.log("create 1")
         risk = document.createElement('div');
         risk.setAttribute('class', 'police');
         let x;
@@ -1078,7 +1080,7 @@ function CreateRisk() {
 
 }
 
-function createstar() {
+export function createstar() {
     let star = document.createElement('div');
     setRandomStar(Math.floor(Math.random() * 2))
     if (randomStar === 0) {
@@ -1094,9 +1096,7 @@ function createstar() {
     clearInternalRemaining();
 
     setTimeout(() => {
-        if (starIndex !== -1) {
-            star.remove();
-        }
+        star.remove();
     }, 8000);
 
     setTimeout(() => {
@@ -1110,9 +1110,7 @@ function createBarrier() {
 
     roadarea.appendChild(barrier);
     setTimeout(() => {
-        if (SkillIndex !== -1) {
             barrier.remove();
-        }
     }, 8000 + (8000 * skills[0].effect / 100));
 
     setTimeout(() => {
@@ -1180,7 +1178,7 @@ document.getElementById('RetryButton').onclick = () => {
         init()
     } else {
         resetHeart();
-        startCountTime = Date.now();
+        setStartCountTime(Date.now())
         GameOverScreen.style.display = 'none';
         score.innerHTML = `Score: 0`;
         cash.innerHTML = `Cash: 0`;
@@ -1209,8 +1207,7 @@ document.getElementById('StartButton').onclick = () => {
         StartGameScreen.style.display = 'none';
         init()
     } else {
-
-        startCountTime = Date.now();
+        setStartCountTime(Date.now())
         score.innerHTML = `Score: 0`;
         cash.innerHTML = `Cash: 0`;
         document.querySelector('.heartHp').style.display = 'block';
