@@ -1,3 +1,99 @@
+import {
+    setStore,
+    getStore,
+    UpdateCash,
+    UpdateUpgradeSkill,
+    player,
+    enemySpeed,
+    keys,
+    counter,
+    currentLevel,
+    AddScore,
+    levelCondition,
+    levelCounter,
+    numberOfEnemy,
+    LevelEnemy,
+    previousRandomNumbersLeft,
+    previousRandomNumbersRight,
+    randomStar,
+    randomRisk,
+    IsX2Score,
+    mouseDown,
+    modeGameSelect,
+    selectedValue,
+    currentSelectedLevel,
+    storageLevelMode,
+    storageChallengeMode,
+    vehicleCount,
+    tempXArray,
+    riskSpeed,
+    carColor,
+    enemyLevelArray,
+    enemySpeedArray,
+    playerSpeedArray,
+    playerMaxSpeedArray,
+    finishedConditionArray,
+    tempPlaySpeed,
+    tempEnemySpeed,
+    startCountTime,
+    isSlow,
+    hearts,
+    BestScoreLevelMode,
+    BestScoreChallengeMode,
+    score,
+    level,
+    GameOverScreen,
+    StartGameScreen,
+    roadarea,
+    timerElement,
+    cash,
+    storageCash,
+    storeSkill,
+    skills,
+    startCashNumber
+} from "./index.js";
+
+
+import {
+    setLevelEnemy,
+    setPlayer,
+    setKeys,
+    setEnemySpeed,
+    setCounter,
+    setCurrentLevel,
+    setAddScore,
+    setLevelCondition,
+    setLevelCounter,
+    addToPreviousRandomNumbersLeft,
+    removeFromPreviousRandomNumbersLeft,
+    addToPreviousRandomNumbersRight,
+    removeFromPreviousRandomNumbersRight,
+    setRandomStar,
+    setRandomRisk,
+    setIsX2Score,
+    setMouseDown,
+    setModeGameSelect,
+    setSelectedValue,
+    setCurrentSelectedLevel,
+    setVehicleCount,
+    addToTempXArray,
+    removeFromTempXArray,
+    setRiskSpeed,
+    setTempPlaySpeed,
+    setTempEnemySpeed,
+    setStartCountTime,
+    setIsSlow,
+    setHearts,
+    setBestScoreLevelMode,
+    setBestScoreChallengeMode,
+    setAllDetailPlayer,
+    ResetEnemySpeedArray,
+    ResetPlayerSpeedArray,
+    ResetPlayerMaxSpeedArray,
+    setEnemySpeedArray,
+    setPlayerSpeedArray,
+    setPlayerMaxSpeedArray
+} from "./index.js";
 document.addEventListener('keydown', keyDown);
 document.addEventListener('keyup', keyUp);
 document.addEventListener('mousedown', handleMouseDown);
@@ -6,7 +102,6 @@ StartGameScreen.style.display = 'block';
 //---------------------
 UpdateCash();
 UpdateUpgradeSkill();
-
 //-------support functions------------------
 document.getElementById('ModeGame').addEventListener('change', function () {
 
@@ -18,19 +113,126 @@ document.getElementById('ModeGame').addEventListener('change', function () {
     }
 });
 function clearStats() {
-    player = { x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 }
-    enemySpeed = 5;
-    enemySpeedArray = [5, 5.5, 6, 6.5, 7, 7.5, 8.0, 8.5, 9, 9.5];
-    hearts = 3;
-    playerSpeedArray = [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10];
-    playerMaxSpeedArray = [7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
+
+    setAllDetailPlayer({ x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 });
+    setEnemySpeed(5);
+    ResetEnemySpeedArray([5, 5.5, 6, 6.5, 7, 7.5, 8.0, 8.5, 9, 9.5]);
+    setHearts(3);
+    ResetPlayerSpeedArray([5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]);
+    ResetPlayerMaxSpeedArray([7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]);
 }
+//----------Interval--------
+//-----new Interval-------
+export let starInterval;
+export let timerInterval;
+export let gasInterval;
+export let moneyInterval;
+export let riskInterval;
+export let countTimerInterval;
+export let heartInterval;
+export let CountGasTime = 0;
+export let CountStarTime = 0;
+export let CountMoneyTime = 0;
+export let CountRiskTime = 0;
+export let CountHeartTime = 0;
+
+export let UsedGasTime = 0;
+export let UsedStarTime = 0;
+export let UsedMoneyTime = 0;
+export let UsedRiskTime = 0;
+export let UsedHeartTime = 0;
+
+export let pauseTime = 0;
+
+export let timeLeft = 30;
+export let timerPaused = false;
+//------set Interval export ----------
+
+export function setStarInterval(value) {
+    starInterval = value;
+}
+
+export function setTimerInterval(value) {
+    timerInterval = value;
+}
+
+export function setGasInterval(value) {
+    gasInterval = value;
+}
+
+export function setMoneyInterval(value) {
+    moneyInterval = value;
+}
+
+export function setRiskInterval(value) {
+    riskInterval = value;
+}
+
+export function setCountTimerInterval(value) {
+    countTimerInterval = value;
+}
+
+export function setHeartInterval(value) {
+    heartInterval = value;
+}
+
+export function setCountGasTime(value) {
+    CountGasTime = value;
+}
+
+export function setCountStarTime(value) {
+    CountStarTime = value;
+}
+
+export function setCountMoneyTime(value) {
+    CountMoneyTime = value;
+}
+
+export function setCountRiskTime(value) {
+    CountRiskTime = value;
+}
+
+export function setCountHeartTime(value) {
+    CountHeartTime = value;
+}
+
+export function setUsedGasTime(value) {
+    UsedGasTime = value;
+}
+
+export function setUsedStarTime(value) {
+    UsedStarTime = value;
+}
+
+export function setUsedMoneyTime(value) {
+    UsedMoneyTime = value;
+}
+
+export function setUsedRiskTime(value) {
+    UsedRiskTime = value;
+}
+
+export function setUsedHeartTime(value) {
+    UsedHeartTime = value;
+}
+
+export function setPauseTime(value) {
+    pauseTime = value;
+}
+
+export function setTimeLeft(value) {
+    timeLeft = value;
+}
+
+export function setTimerPaused(value) {
+    timerPaused = value;
+}
+//-----------------------------------------
 function clearInternalRemaining() {
-    
+
     if (UsedGasTime !== 0) {
         clearInterval(gasInterval);
         gasInterval = null;
-
         UsedGasTime = 0;
     }
 
@@ -39,7 +241,6 @@ function clearInternalRemaining() {
     if (UsedStarTime !== 0) {
         clearInterval(starInterval);
         starInterval = null;
-
         UsedStarTime = 0;
     }
 
@@ -47,7 +248,6 @@ function clearInternalRemaining() {
     if (UsedMoneyTime !== 0) {
         clearInterval(moneyInterval);
         moneyInterval = null;
-
         UsedMoneyTime = 0;
     }
 
@@ -55,7 +255,6 @@ function clearInternalRemaining() {
     if (UsedRiskTime !== 0) {
         clearInterval(riskInterval);
         riskInterval = null;
-
         UsedRiskTime = 0;
     }
     if (UsedHeartTime !== 0) {
@@ -119,7 +318,7 @@ function resetTimer() {
     updateTimer();
 }
 function resetHeart() {
-    hearts = 3;
+    setHearts(3);
     let heartsIcons = document.querySelectorAll('.far.fa-heart');
     heartsIcons.forEach(function (icon) {
         icon.classList.replace('far', 'fas');
@@ -165,11 +364,13 @@ function formatTime(currentTime) {
 
     return `${minutes}:${seconds}`;
 }
+
 function resume() {
     //---------pause--------------
-    player.pause = !player.pause
+    setPlayer('pause', !player.pause);
+
     let PauseScreen = document.getElementById('PauseScreen');
-    
+
     pauseTime = Date.now();
     if (selectedValue == 0) {
         toggleTimerPause()
@@ -177,16 +378,16 @@ function resume() {
         PauseCountTime()
     }
 
-    
+
     //---------resume-------------
     if (player.start && !player.pause) {
-        
-        player.start = true;
+        setPlayer('start', true);
+
         PauseScreen.style.display = 'none';
-        
+
         if (selectedValue == 0) {
             //-----------check interval------------
-            
+
             if (!gasInterval) {
                 if (UsedGasTime == 0) {
                     UsedGasTime = ((pauseTime - CountGasTime) / 1000) * 1000;
@@ -198,7 +399,7 @@ function resume() {
 
             }
             if (!starInterval) {
-                
+
                 if (UsedStarTime == 0) {
                     UsedStarTime = ((pauseTime - CountStarTime) / 1000) * 1000;
                 } else {
@@ -229,7 +430,7 @@ function resume() {
             window.requestAnimationFrame(playerarea);
         } else {
             if (!starInterval) {
-                
+
                 if (UsedStarTime == 0) {
                     UsedStarTime = ((pauseTime - CountStarTime) / 1000) * 1000;
                 } else {
@@ -237,7 +438,7 @@ function resume() {
 
                 }
 
-                
+
             }
             if (!moneyInterval) {
                 if (UsedMoneyTime == 0) {
@@ -273,37 +474,38 @@ function resume() {
     }
 }
 function endGame() {
-    player.start = false;
+
+    setPlayer('start', false);
     document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
     GameOverScreen.style.display = 'block';
     let CashValue = (counter * 5) + parseInt(startCashNumber, 10);
-    
+
     setStore(storageCash, CashValue)
     UpdateCash();
     clearStats();
     turnOffInternal();
+
     if (selectedValue == 0) {
 
         if (localStorage.getItem(storageChallengeMode) !== null) {
             let checkvalue = getStore(storageChallengeMode);
             if ((counter * 10) > checkvalue) {
-                BestScoreChallengeMode = counter * 10;
+
+                let bestvalue = counter * 10;
+                setBestScoreChallengeMode(bestvalue);
                 setStore(storageChallengeMode, BestScoreChallengeMode)
             }
         } else {
-            BestScoreChallengeMode = counter * 10;
+            let bestvalue = counter * 10;
+            setBestScoreChallengeMode(bestvalue);
             setStore(storageChallengeMode, BestScoreChallengeMode)
         }
 
-    } else {
-
-
     }
-
-    counter = 0
+    setCounter(0);
 
 }
-function getRandomUniqueNumber(number, previousNumbers) {
+function getRandomUniqueNumber(number, previousNumbers, side) {
     let randomNum;
 
     do {
@@ -311,10 +513,12 @@ function getRandomUniqueNumber(number, previousNumbers) {
 
     } while (previousNumbers.includes(randomNum));
 
-    previousNumbers.push(randomNum);
+    side === 'right' ? addToPreviousRandomNumbersRight(randomNum)
+        : addToPreviousRandomNumbersLeft(randomNum);
 
     if (previousNumbers.length > 2) {
-        previousNumbers.shift(); // Remove the oldest number
+        side === 'right' ? removeFromPreviousRandomNumbersRight()
+            : removeFromPreviousRandomNumbersLeft();
     }
 
     return randomNum;
@@ -323,36 +527,38 @@ function getRandomUniqueNumber(number, previousNumbers) {
 function keyDown(ev) {
 
     if (ev.key === 'Escape') {
-        
         resume()
 
     } else {
-        keys[ev.key] = true
+        setKeys(ev.key, true);
     }
 
 
 }
 
 function keyUp(ev) {
-
-    keys[ev.key] = false
+    setKeys(ev.key, false);
 }
+
 
 function handleMouseDown(event) {
     if (event.button === 0) {
-        mouseDown = true;
+        setMouseDown(true);
         if (isSlow == false) {
+            
             if (selectedValue == 0) {
-                maxSpeed = player.maxSpeed
-                tempPlaySpeed = player.speed
-                player.speed = maxSpeed
+
+                let maxSpeed = player.maxSpeed;
+                setTempPlaySpeed(player.speed);
+                setPlayer('speed', maxSpeed);
 
             } else {
-                maxSpeed = playerMaxSpeedArray[currentSelectedLevel]
-                tempPlaySpeed = playerSpeedArray[currentSelectedLevel]
-                playerSpeedArray[currentSelectedLevel] = maxSpeed;
-                tempEnemySpeed = enemySpeedArray[currentSelectedLevel]
-                enemySpeedArray[currentSelectedLevel] += 1
+                let maxSpeed = playerMaxSpeedArray[currentSelectedLevel]
+                setTempPlaySpeed(playerSpeedArray[currentSelectedLevel])
+                setPlayerSpeedArray(currentSelectedLevel, maxSpeed);
+                setTempEnemySpeed(enemySpeedArray[currentSelectedLevel])
+                let tempEnemy = enemySpeedArray[currentSelectedLevel] + 1
+                setEnemySpeedArray(currentSelectedLevel, tempEnemy)
             }
         }
 
@@ -362,14 +568,13 @@ function handleMouseDown(event) {
 
 function handleMouseUp(event) {
     if (event.button === 0) {
-        mouseDown = false
+        setMouseDown(false);
         if (isSlow == false) {
             if (selectedValue == 0) {
-                player.speed = tempPlaySpeed
-
+                setPlayer('speed', tempPlaySpeed)
             } else {
-                playerSpeedArray[currentSelectedLevel] = tempPlaySpeed;
-                enemySpeedArray[currentSelectedLevel] = tempEnemySpeed;
+                setPlayerSpeedArray(currentSelectedLevel, tempPlaySpeed)
+                setEnemySpeedArray(currentSelectedLevel, tempEnemySpeed)
             }
         }
 
@@ -406,14 +611,14 @@ function createVehicle(customX) {
     }
 
     vehicles.style.top = vehicles.y + 'px';
-    vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft) * 52
-        : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight) * 52) + 'px';
+    vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft, 'left') * 52
+        : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight, 'right') * 52) + 'px';
     let rotation = x % 2 === 0 ? 'rotate(180deg)' : 'none';
     vehicles.style.backgroundImage = `url(./img/${carColor[randomColor]}.png)`;
     vehicles.style.transform = rotation;
     roadarea.appendChild(vehicles)
 }
-
+//-------stop-------
 
 function moveVehicles(playerCar) {
     let vehicles = document.querySelectorAll('.vehicle');
@@ -423,7 +628,7 @@ function moveVehicles(playerCar) {
         barrierBound = barrier.getBoundingClientRect();
     }
 
-    playerCarBound = playerCar.getBoundingClientRect();
+    let playerCarBound = playerCar.getBoundingClientRect();
 
 
 
@@ -441,28 +646,29 @@ function moveVehicles(playerCar) {
                 if (timeLeft >= 0) {
                     timeLeft -= 5;
                     updateTimer();
-                    tempXArray.push(x);
+
+                    addToTempXArray(x)
                     item.remove();
                     setTimeout(() => {
-                        let newX = tempXArray.pop();
+                        let newX = removeFromTempXArray();
                         createVehicle(newX);
 
                     }, 1500 * index);
-                    counter -= 1;
+                    setCounter(counter - 1);
                     score.innerHTML = `Score: ${counter * 10}`;
                     cash.innerHTML = `Cash: ${counter * 5}`;
                 }
             } else {
-                hearts--;
+                setHearts(hearts - 1);
                 if (hearts >= 0) {
                     let heartHp = document.getElementById('heartHp');
                     let heartsIcons = heartHp.querySelectorAll('.fas.fa-heart');
 
                     heartsIcons[hearts].classList.replace('fas', 'far');
-                    tempXArray.push(x);
+                    addToTempXArray(x)
                     item.remove();
                     setTimeout(() => {
-                        let newX = tempXArray.pop();
+                        let newX = removeFromTempXArray();
                         createVehicle(newX);
 
                     }, 1500 * index);
@@ -480,20 +686,20 @@ function moveVehicles(playerCar) {
                 otherCarBound.top > barrierBound.bottom ||
                 otherCarBound.right < barrierBound.left ||
                 otherCarBound.left > barrierBound.right)) {
-                tempXArray.push(x);
+                addToTempXArray(x)
 
                 item.remove();
                 if (IsX2Score === true) {
-                    counter += 2;
+                    setCounter(counter + 2);
                 } else {
-                    counter += 1;
+                    setCounter(counter + 1);
                 }
 
                 score.innerHTML = `Score: ${counter * 10}`
                 cash.innerHTML = `Cash: ${counter * 5}`;
 
                 setTimeout(() => {
-                    let newX = tempXArray.pop();
+                    let newX = removeFromTempXArray();
                     createVehicle(newX);
 
                 }, 1500 * index);
@@ -504,17 +710,16 @@ function moveVehicles(playerCar) {
             }
         }
 
-
         let currentTop = parseInt(item.style.top);
         if (currentTop >= 750) {
             currentTop = -300;
 
-            item.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft) * 52
-                : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight) * 52) + 'px';
+            item.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft, 'left') * 52
+                : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight, 'right') * 52) + 'px';
             if (IsX2Score === true) {
-                counter += 2;
+                setCounter(counter + 2);
             } else {
-                counter += 1;
+                setCounter(counter + 1);
             }
             score.innerHTML = `Score: ${counter * 10}`;
             cash.innerHTML = `Cash: ${counter * 5}`;
@@ -523,9 +728,6 @@ function moveVehicles(playerCar) {
             if (selectedValue == 0) {
                 LevelUp();
             }
-
-
-
         }
         if (selectedValue == 0) {
             let newSpeed = x % 2 === 0 ? enemySpeed - 0.5 : enemySpeed;
@@ -547,37 +749,33 @@ function moveVehicles(playerCar) {
 function LevelUp() {
 
     if (counter * 10 >= levelCondition + AddScore) {
-
-        levelCondition = levelCondition + AddScore;
-        currentLevel += 1;
+        setLevelCondition(levelCondition + AddScore);
+        setCurrentLevel(currentLevel + 1);
         document.getElementById('level').innerHTML = `Level: ${currentLevel}`;
-        levelCounter += 1;
-
+        setLevelCounter(levelCounter + 1);
         if (levelCounter === 3) {
-
-            levelCounter = 0;
-            AddScore = AddScore + 100;
+            setLevelCounter(0);
+            setAddScore(AddScore + 100);
         }
 
         if (currentLevel % 3 === 0 && LevelEnemy < numberOfEnemy.length - 1) {
-            LevelEnemy = Math.floor(currentLevel / 3);
+            setLevelEnemy(Math.floor(currentLevel / 3));
             createVehicle();
         }
         if (currentLevel % 4 === 0) {
-            enemySpeed += 1;
-            player.maxSpeed += 1;
-
+            setEnemySpeed(enemySpeed + 1);
+            setPlayer('maxSpeed', player.maxSpeed + 1);
             if (mouseDown === true) {
-                tempPlaySpeed += 0.5;
+                setTempPlaySpeed(tempPlaySpeed + 0.5);
             } else {
-                player.speed += 0.5;
+                setPlayer('speed', 0.5);
             }
         }
     }
 }
 function getGas(playerCar) {
     let gas = document.querySelector('.gas');
-    playerCarBound = playerCar.getBoundingClientRect();
+    let playerCarBound = playerCar.getBoundingClientRect();
     let gasBound = gas.getBoundingClientRect();
 
     if (!(playerCarBound.bottom < gasBound.top ||
@@ -596,7 +794,7 @@ function getGas(playerCar) {
 
 function getStar(playerCar, star) {
 
-    playerCarBound = playerCar.getBoundingClientRect()
+    let playerCarBound = playerCar.getBoundingClientRect()
     let starBound = star.getBoundingClientRect();
 
     if (!(playerCarBound.bottom < starBound.top ||
@@ -606,14 +804,14 @@ function getStar(playerCar, star) {
         if (randomStar === 0) {
             createBarrier();
         } else if (randomStar === 1) {
-            IsX2Score = true;
+            setIsX2Score(true);
             score.classList.add('rainbow');
             document.getElementById('X2Text').style.display = 'block';
             setTimeout(() => {
-                IsX2Score = false;
+                setIsX2Score(false);
                 document.getElementById('X2Text').style.display = 'none';
                 score.classList.remove('rainbow');
-            }, 7000 + (7000*skills[1].effect/100));
+            }, 7000 + (7000 * skills[1].effect / 100));
         }
 
         star.remove();
@@ -622,7 +820,7 @@ function getStar(playerCar, star) {
 
 function getMoney(playerCar, money) {
 
-    playerCarBound = playerCar.getBoundingClientRect()
+    let playerCarBound = playerCar.getBoundingClientRect()
     let moneyBound = money.getBoundingClientRect();
 
     if (!(playerCarBound.bottom < moneyBound.top ||
@@ -631,11 +829,11 @@ function getMoney(playerCar, money) {
         playerCarBound.left > moneyBound.right)) {
 
         if (IsX2Score == true) {
-            counter = counter + 10 +(skills[2].effect * 2);
+            setCounter(counter + 10 + (skills[2].effect * 2))
             score.innerHTML = `Score: ${counter * 10}`;
             cash.innerHTML = `Cash: ${counter * 5}`;
         } else {
-            counter += 5 +(skills[2].effect);
+            setCounter(counter + 5 + (skills[2].effect))
             score.innerHTML = `Score: ${counter * 10}`;
             cash.innerHTML = `Cash: ${counter * 5}`;
         }
@@ -675,22 +873,20 @@ function MoveRisk(playerCar, risk) {
 
     risk.style.top = currentTop + 'px';
 
-    playerCarBound = playerCar.getBoundingClientRect()
+    let playerCarBound = playerCar.getBoundingClientRect()
     let riskBound = risk.getBoundingClientRect();
     if (!(playerCarBound.bottom < riskBound.top ||
         playerCarBound.top > riskBound.bottom ||
         playerCarBound.right < riskBound.left ||
         playerCarBound.left > riskBound.right)) {
         if (randomRisk === 0) {
-
-            player.speed -= 2;
+            setPlayer("speed", player.speed - 2)
             risk.remove();
             UsedRiskTime = 0;
-            isSlow = true;
+            setIsSlow(true);
             setTimeout(function () {
-
-                player.speed += 2;
-                isSlow = false;
+                setPlayer("speed", player.speed + 2)
+                setIsSlow(false);
 
             }, 3000);
         } else if (randomRisk === 1) {
@@ -704,6 +900,7 @@ function MoveRisk(playerCar, risk) {
 
 function playerarea() {
     let playerCar = document.querySelector('.car');
+    console.log(playerCar)
     let barrier = document.querySelector('.barrier');
     let gas = document.querySelector('.gas');
     let star;
@@ -768,23 +965,20 @@ function playerarea() {
             MoveRisk(playerCar, risk);
         }
         if (keys.w && player.y > (road.top + 20)) {
-            player.y = player.y - player.speed;
+            setPlayer("y", player.y - player.speed)
 
         }
 
         if (keys.s && player.y < (roadarea.clientHeight - 120)) {
-
-            player.y = player.y + player.speed;
-
+            setPlayer("y", player.y + player.speed)
         }
 
         if (keys.a && player.x > 0) {
-            player.x = player.x - player.speed;
-
+            setPlayer("x", player.x - player.speed)
         }
 
         if (keys.d && player.x < (road.width - 64)) {
-            player.x = player.x + player.speed;
+            setPlayer("x", player.x + player.speed)
 
         }
         playerCar.style.top = player.y + 'px'
@@ -818,7 +1012,6 @@ function getRandomPosition(objectWidth, ObjectHeight) {
 }
 
 function createGas() {
-
     let gas = document.createElement('div');
     gas.setAttribute('class', 'gas');
     let randomPosition = getRandomPosition(30, 30);
@@ -826,24 +1019,14 @@ function createGas() {
     gas.style.left = randomPosition.x + 'px';
     roadarea.appendChild(gas);
     clearInternalRemaining();
-    gasTimers.push(gas)
-    setTimeout(() => {
-        let gasIndex = gasTimers.indexOf(gas);
-        if (gasIndex !== -1) {
-            gas.remove();
-            gasTimers.splice(gasIndex, 1);
 
-        }
+    setTimeout(() => {
+            gas.remove();
     }, 8000);
 
     setTimeout(() => {
         gas.classList.add('gas-fade');
     }, 5000);
-
-
-
-
-
 }
 
 function createMoney() {
@@ -859,7 +1042,6 @@ function createMoney() {
     clearInternalRemaining();
     setTimeout(() => {
         money.remove();
-
     }, 8000);
 
     setTimeout(() => {
@@ -868,8 +1050,7 @@ function createMoney() {
 }
 function CreateRisk() {
     let risk;
-    randomRisk = Math.floor(Math.random() * 2);
-
+    setRandomRisk(Math.floor(Math.random() * 2))
     if (randomRisk == 0) {
         risk = document.createElement('i');
         risk.classList.add('fas', 'fa-water', 'riskWater');
@@ -883,8 +1064,8 @@ function CreateRisk() {
         } else {
             x = enemyLevelArray[currentSelectedLevel] + 1;
         }
-        risk.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft) * 52
-            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight) * 52) + 'px';
+        risk.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft, 'left') * 52
+            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight, 'right') * 52) + 'px';
     }
 
     risk.style.position = 'absolute';
@@ -898,10 +1079,8 @@ function CreateRisk() {
 }
 
 function createstar() {
-
     let star = document.createElement('div');
-    randomStar = Math.floor(Math.random() * 2);
-
+    setRandomStar(Math.floor(Math.random() * 2))
     if (randomStar === 0) {
         star.setAttribute('class', 'star');
     } else if (randomStar === 1) {
@@ -913,45 +1092,34 @@ function createstar() {
     star.style.left = randomPosition.x + 'px';
     roadarea.appendChild(star);
     clearInternalRemaining();
-    starTimers.push(star)
+
     setTimeout(() => {
-        let starIndex = starTimers.indexOf(star);
         if (starIndex !== -1) {
             star.remove();
-            starTimers.splice(starIndex, 1);
-
         }
     }, 8000);
 
     setTimeout(() => {
         star.classList.add('star-fade');
     }, 5000);
-
-
 }
 
 function createBarrier() {
-
     let barrier = document.createElement('div');
     barrier.classList.add('barrier');
 
     roadarea.appendChild(barrier);
-    skillUsed.push(barrier);
     setTimeout(() => {
-        let SkillIndex = skillUsed.indexOf(barrier);
         if (SkillIndex !== -1) {
             barrier.remove();
-            skillUsed.splice(SkillIndex, 1);
         }
-    }, 8000 + (8000*skills[0].effect/100));
+    }, 8000 + (8000 * skills[0].effect / 100));
 
     setTimeout(() => {
-
         barrier.classList.add('barrier-fade');
-    }, 5000 + (5000*skills[0].effect/100));
+    }, 5000 + (5000 * skills[0].effect / 100));
 }
 function init() {
-
     roadarea.innerHTML = "";
     player.start = true;
     startTimer();
@@ -962,16 +1130,11 @@ function init() {
     playerCar.setAttribute('class', 'car');
     roadarea.appendChild(playerCar);
 
-
-    player.x = playerCar.offsetLeft;
-    player.y = playerCar.offsetTop;
-
-
-
+    setPlayer('x', playerCar.offsetLeft)
+    setPlayer('y', playerCar.offsetTop)
 
     for (var i = 0; i < 5; i++) {
         let roadlines = document.createElement('div');
-
         roadlines.setAttribute('class', 'line');
         roadlines.y = i * 150;
         roadlines.style.top = roadlines.y + 'px';
@@ -987,9 +1150,8 @@ function init() {
         vehicles.setAttribute('data-id', x + 1);
         vehicles.y = ((x + 1) * 300) * -1;
         vehicles.style.top = vehicles.y + 'px';
-        vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft) * 52
-            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight) * 52) + 'px';
-
+        vehicles.style.left = (x % 2 === 0 ? getRandomUniqueNumber(3, previousRandomNumbersLeft, 'left') * 52
+            : 195 + getRandomUniqueNumber(4, previousRandomNumbersRight, 'right') * 52) + 'px';
 
         let rotation = x % 2 === 0 ? 'rotate(180deg)' : 'none';
 
@@ -997,17 +1159,10 @@ function init() {
         vehicles.style.transform = rotation;
         roadarea.appendChild(vehicles)
     }
-
-
-
-
-
-
-
 }
 
 document.getElementById('RetryButton').onclick = () => {
-    IsX2Score = false;
+    setIsX2Score(false);
     document.getElementById('X2Text').style.display = 'none';
     score.classList.remove('rainbow');
     if (selectedValue == 0) {
@@ -1016,12 +1171,12 @@ document.getElementById('RetryButton').onclick = () => {
         score.innerHTML = `Score: 0`;
         cash.innerHTML = `Cash: 0`;
         level.innerHTML = `Level: 0`;
-        currentLevel = 0;
+        setCurrentLevel(0);
         let dataChallenge = getStore(storageChallengeMode);
         document.querySelector('.best').innerHTML = `Best Record: ${dataChallenge}`;
-        AddScore = 100;
-        levelCondition = 0
-        levelCounter = 0;
+        setAddScore(100);
+        setLevelCondition(0);
+        setLevelCounter(0);
         init()
     } else {
         resetHeart();
@@ -1034,14 +1189,11 @@ document.getElementById('RetryButton').onclick = () => {
         document.querySelector('.TimeClock').innerHTML = `00:00`
         init2()
     }
-
 }
 
-
-
 document.getElementById('StartButton').onclick = () => {
-    modeGameSelect = document.getElementById('ModeGame');
-    selectedValue = modeGameSelect.value;
+    setSelectedValue(document.getElementById('ModeGame').value)
+
     if (selectedValue == 0) {
 
         if (localStorage.getItem(storageChallengeMode) !== null) {
@@ -1065,46 +1217,42 @@ document.getElementById('StartButton').onclick = () => {
         document.querySelector('.GoalScore').style.display = 'block';
         document.querySelector('.boardTime').style.display = 'block';
         StartGameScreen.style.display = 'none';
-        currentSelectedLevel = +document.getElementById('LevelPart').value;
-
+        setCurrentSelectedLevel(0)
         if (localStorage.getItem(storageLevelMode) !== null) {
             let dataLevel = getStore(storageLevelMode)
             document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
         } else {
             document.querySelector('.best').innerHTML = `Best Record: 00:00`;
         }
-
         document.querySelector('.GoalScore').innerHTML = `Goal ${finishedConditionArray[currentSelectedLevel]}`;
         level.innerHTML = `Level: ${currentSelectedLevel + 1}`;
         init2()
     }
-
 }
 document.getElementById('ResumeButton').onclick = () => {
     resume()
 }
 
 function backToMainScreen() {
-
     roadarea.innerHTML = "";
     let PauseScreen = document.getElementById('PauseScreen');
     PauseScreen.style.display = 'none';
-    player.pause = false;
+    setPlayer('pause', false);
     GameOverScreen.style.display = 'none';
     document.querySelector('.heartHp').style.display = 'none';
     StartGameScreen.style.display = 'block';
     timerPaused = false;
-    counter = 0
+    setCounter(0);
     turnOffInternal();
     if (selectedValue == 0) {
         timeLeft = 30;
         // Add Cash with current having Cash
         score.innerHTML = `Score: 0`;
         level.innerHTML = `Level: 0`;
-        currentLevel = 0;
-        AddScore = 100;
-        levelCondition = 0
-        levelCounter = 0;
+        setCurrentLevel(0);
+        setAddScore(100);
+        setLevelCondition(0);
+        setLevelCounter(0);
         resetTimer();
         document.getElementById('timer').style.display = 'none'
     } else {
@@ -1117,3 +1265,4 @@ function backToMainScreen() {
 
 }
 
+window.backToMainScreen = backToMainScreen;

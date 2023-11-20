@@ -2,6 +2,9 @@
     background-image: url('../img/bg.jpg');
     background-size: cover;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #cash {
     position: absolute;
@@ -40,4 +43,27 @@
     font-size: 14px; /* Adjust the font size as needed */
     padding: 6px 12px; /* Adjust padding as needed */
     margin-top: -10px; /* Adjust margin-top to move the button up */
+}
+
+#formLogin {
+    background-color: rgb(100, 224, 156);
+    display: flex;
+    width: 450px;
+    flex-direction: column;
+    
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 10px rgba(0, 0, 255, 0.8), 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
+input {
+    padding: 8px;
+    margin: 5px;
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
 }

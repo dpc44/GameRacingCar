@@ -1,10 +1,9 @@
-
-function setStore(name, data) {
+export function setStore(name, data) {
     let sData = JSON.stringify(data);
     localStorage.setItem(name, sData);
 }
 
-function getStore(name) {
+export function getStore(name) {
     if (localStorage.getItem(name)) {
         let sData = localStorage.getItem(name);
         let data = JSON.parse(sData);
@@ -13,98 +12,72 @@ function getStore(name) {
     return {};
 }
 //--------------Variable-------------------
-let player = { x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 }
-let enemySpeed = 5;
-let keys = { w: false, s: false, a: false, d: false };
-let counter = 0;
-let gasTimers = [];
-let skillUsed = [];
-let starTimers = [];
-let timeLeft = 30;
-let timerPaused = false;
-let currentLevel = 0;
-let AddScore = 100;
-let levelCondition = 0
-let levelCounter = 0;
-let numberOfEnemy = [3, 4, 5, 6]
-let LevelEnemy = 0;
-let previousRandomNumbersLeft = [];
-let previousRandomNumbersRight = [];
-let randomStar = 0;
-let randomRisk = 0;
-let IsX2Score = false;
-let mouseDown = false;
+export let player = { x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 }
+export let enemySpeed = 5;
+export let keys = { w: false, s: false, a: false, d: false };
+export let counter = 0;
+
+export let currentLevel = 0;
+export let AddScore = 100;
+export let levelCondition = 0
+export let levelCounter = 0;
+export let numberOfEnemy = [3, 4, 5, 6]
+export let LevelEnemy = 0;
+
+export let previousRandomNumbersLeft = [];
+export let previousRandomNumbersRight = [];
 
 
-let modeGameSelect;
-let selectedValue;
-let currentSelectedLevel;
-
-let storageLevelMode = "LevelStorage";
-let storageChallengeMode = "ChallengeStorage"
-
-let vehicleCount = 0;
-let tempXArray = [];
-let riskSpeed = 4;
-let carColor = ["Green", "Purple", "Red", "Yellow"];
+export let randomStar = 0;
+export let randomRisk = 0;
+export let IsX2Score = false;
+export let mouseDown = false;
+export let modeGameSelect;
+export let selectedValue ;
+export let currentSelectedLevel;
+export let storageLevelMode = "LevelStorage";
+export let storageChallengeMode = "ChallengeStorage"
+export let vehicleCount = 0;
+export let tempXArray = [];
+export let riskSpeed = 4;
+export let carColor = ["Green", "Purple", "Red", "Yellow"];
 //------------------variable for level model---------
-let enemyLevelArray = [3, 3, 3, 4, 4, 4, 5, 5, 5, 5];
-let enemySpeedArray = [5, 5.5, 6, 6.5, 7, 7.5, 8.0, 8.5, 9, 9.5];
-let playerSpeedArray = [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10];
-let playerMaxSpeedArray = [7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
-let finishedConditionArray = [500, 700, 1000, 1300, 1600, 1900, 2200, 2500, 2800, 3100]
-let tempPlaySpeed = 0;
-let tempEnemySpeed = 0;
-let startCountTime;
-let isSlow = false;
-let hearts = 3;
+export let enemyLevelArray = [3, 3, 3, 4, 4, 4, 5, 5, 5, 5];
+export let enemySpeedArray = [5, 5.5, 6, 6.5, 7, 7.5, 8.0, 8.5, 9, 9.5];
+export let playerSpeedArray = [5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10];
+export let playerMaxSpeedArray = [7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12];
+export let finishedConditionArray = [500, 700, 1000, 1300, 1600, 1900, 2200, 2500, 2800, 3100]
+export let tempPlaySpeed = 0;
+export let tempEnemySpeed = 0;
+export let startCountTime;
+export let isSlow = false;
+export let hearts = 3;
 
-var BestScoreLevelMode = ["00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"];
-var BestScoreChallengeMode = 0;
-//-----new Interval-------
-let starInterval;
-let timerInterval;
-let gasInterval;
-let moneyInterval;
-let riskInterval;
-let countTimerInterval;
-let heartInterval;
-let CountGasTime = 0;
-let CountStarTime = 0;
-let CountMoneyTime = 0;
-let CountRiskTime = 0;
-let CountHeartTime = 0;
+export var BestScoreLevelMode = ["00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"];
+export var BestScoreChallengeMode = 0;
+//--------------------HTML by Id--------------------------
+export var score = document.getElementById('score');
 
-let UsedGasTime = 0;
-let UsedStarTime = 0;
-let UsedMoneyTime = 0;
-let UsedRiskTime = 0;
-let UsedHeartTime = 0;
+export let level = document.getElementById('level');
+export let GameOverScreen = document.getElementById('GameOverScreen');
+export let StartGameScreen = document.getElementById('GameStartScreen');
 
-let pauseTime = 0;
-
-var score = document.getElementById('score');
-
-let level = document.getElementById('level');
-let GameOverScreen = document.getElementById('GameOverScreen');
-let StartGameScreen = document.getElementById('GameStartScreen');
-
-const roadarea = document.querySelector('.road');
-let timerElement = document.querySelector('.TimeClock');
+export let roadarea = document.querySelector('.road');
+export let timerElement = document.querySelector('.TimeClock');
 //-------level skill + Cash------
-var cash = document.getElementById('cash');
-let storageCash = "CashStorage"
-let storeSkill = "UpgradeSkillStorage"
+export var cash = document.getElementById('cash');
+export let storageCash = "CashStorage"
+export let storeSkill = "UpgradeSkillStorage"
 
-var skills = [
+export var skills = [
     { name: 'shieldLevel', level: 0, money: 1000, effect: 0 },
     { name: 'X2PointLevel', level: 0, money: 1000, effect: 0 },
     { name: 'bounusLevel', level: 0, money: 1500, effect: 0 }
 ];
 
 //---------Set Cash + skill storage--------
-var startCashNumber = 100000000;
-function UpdateCash() {
+export var startCashNumber = 100000000;
+export function UpdateCash() {
     if (localStorage.getItem(storageCash) !== null) {
         
         startCashNumber = localStorage.getItem(storageCash);
@@ -117,7 +90,7 @@ function UpdateCash() {
 
     }
 }
-function UpdateUpgradeSkill() {
+export function UpdateUpgradeSkill() {
     
     if (localStorage.getItem(storeSkill)!== null) {
         
@@ -126,5 +99,193 @@ function UpdateUpgradeSkill() {
     } else {
         
         setStore(storeSkill, skills);
+    }
+}
+//------------SetFunction----------
+
+
+
+
+export function setPlayer(field, value) {
+    if (field in player) {
+        player[field] = value;
+    } else {
+        console.log(`Invalid field: ${field}`);
+    }
+}
+
+
+export function setKeys(field, value) {
+    if (field in keys) {
+        keys[field] = value;
+    } else {
+        console.log(`Invalid field: ${field}`);
+    }
+}
+
+export function setEnemySpeed(value) {
+    enemySpeed = value;
+}
+
+export function setCounter(value) {
+    counter = value;
+}
+
+
+
+export function setCurrentLevel(value) {
+    currentLevel = value;
+}
+
+export function setAddScore(value) {
+    AddScore = value;
+}
+
+export function setLevelCondition(value) {
+    levelCondition = value;
+}
+
+export function setLevelCounter(value) {
+    levelCounter = value;
+}
+
+export function setLevelEnemy(value) {
+    LevelEnemy = value;
+}
+
+export function addToPreviousRandomNumbersLeft(value) {
+    previousRandomNumbersLeft.push(value);
+}
+
+export function removeFromPreviousRandomNumbersLeft() {
+    return previousRandomNumbersLeft.shift();
+}
+
+export function addToPreviousRandomNumbersRight(value) {
+    previousRandomNumbersRight.push(value);
+}
+
+export function removeFromPreviousRandomNumbersRight() {
+    return previousRandomNumbersRight.shift();
+}
+
+export function setRandomStar(value) {
+    randomStar = value;
+}
+
+export function setRandomRisk(value) {
+    randomRisk = value;
+}
+
+export function setIsX2Score(value) {
+    IsX2Score = value;
+}
+
+export function setMouseDown(value) {
+    mouseDown = value;
+}
+
+export function setModeGameSelect(value) {
+    modeGameSelect = value;
+}
+
+export function setSelectedValue(value) {
+    selectedValue = value;
+}
+
+export function setCurrentSelectedLevel(value) {
+    
+    currentSelectedLevel = value;
+}
+
+export function setVehicleCount(value) {
+    vehicleCount = value;
+}
+
+export function addToTempXArray(value) {
+    tempXArray.push(value);
+}
+
+export function removeFromTempXArray() {
+    return tempXArray.pop();
+}
+
+export function setRiskSpeed(value) {
+    riskSpeed = value;
+}
+
+export function setTempPlaySpeed(value) {
+    tempPlaySpeed = value;
+}
+
+export function setTempEnemySpeed(value) {
+    tempEnemySpeed = value;
+}
+
+export function setStartCountTime(value) {
+    startCountTime = value;
+}
+
+export function setIsSlow(value) {
+    isSlow = value;
+}
+
+export function setHearts(value) {
+    hearts = value;
+}
+
+export function setBestScoreLevelMode(index, value) {
+    BestScoreLevelMode[index] = value;
+}
+
+export function setBestScoreChallengeMode(value) {
+    BestScoreChallengeMode = value;
+}
+
+
+
+export function setAllDetailPlayer(newX, newY, newSpeed, newStart, newPause, newMaxSpeed) {
+    player.x = newX !== undefined ? newX : player.x;
+    player.y = newY !== undefined ? newY : player.y;
+    player.speed = newSpeed !== undefined ? newSpeed : player.speed;
+    player.start = newStart !== undefined ? newStart : player.start;
+    player.pause = newPause !== undefined ? newPause : player.pause;
+    player.maxSpeed = newMaxSpeed !== undefined ? newMaxSpeed : player.maxSpeed;
+}
+
+export function ResetEnemySpeedArray(newArray) {
+    enemySpeedArray = newArray;
+}
+
+export function ResetPlayerSpeedArray(newArray) {
+    playerSpeedArray = newArray;
+}
+
+export function ResetPlayerMaxSpeedArray(newArray) {
+    playerMaxSpeedArray = newArray;
+}
+
+export function setEnemySpeedArray(position, value) {
+    if (position >= 0 && position < enemySpeedArray.length) {
+        enemySpeedArray[position] = value;
+    } else {
+        console.log(`Invalid position: ${position}`);
+    }
+}
+
+export function setPlayerSpeedArray(position, value) {
+    
+    if (position >= 0 && position < playerSpeedArray.length) {
+        playerSpeedArray[position] = value;
+    } else {
+        console.log(`Invalid position: ${position}`);
+    }
+}
+
+export function setPlayerMaxSpeedArray(position, value) {
+    if (position >= 0 && position < playerMaxSpeedArray.length) {
+        playerMaxSpeedArray[position] = value;
+    } else {
+        console.log(`Invalid position: ${position}`);
     }
 }
