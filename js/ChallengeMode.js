@@ -1214,7 +1214,8 @@ document.getElementById('StartButton').onclick = () => {
         document.querySelector('.GoalScore').style.display = 'block';
         document.querySelector('.boardTime').style.display = 'block';
         StartGameScreen.style.display = 'none';
-        setCurrentSelectedLevel(0)
+        setCurrentSelectedLevel(+document.getElementById('LevelPart').value)
+        
         if (localStorage.getItem(storageLevelMode) !== null) {
             let dataLevel = getStore(storageLevelMode)
             document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
