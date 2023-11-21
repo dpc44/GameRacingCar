@@ -1,4 +1,6 @@
+import { setNewUID } from "./FireBaseConfig.js";
 import { init2, playerarea2 } from "./LevelMode.js";
+
 import {
     setStore,
     getStore,
@@ -101,8 +103,10 @@ document.addEventListener('mousedown', handleMouseDown);
 document.addEventListener('mouseup', handleMouseUp);
 StartGameScreen.style.display = 'block';
 //---------------------
+
 UpdateCash();
 UpdateUpgradeSkill();
+
 //-------support functions------------------
 document.getElementById('ModeGame').addEventListener('change', function () {
 

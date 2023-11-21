@@ -1,3 +1,14 @@
+import { newUID } from "./FireBaseConfig.js";
+
+import { getUser } from "./checkLogined.js";
+
+if(newUID){
+    console.log("start");
+}else{
+    console.log("wait");
+    await getUser();
+}
+
 export function setStore(name, data) {
     let sData = JSON.stringify(data);
     localStorage.setItem(name, sData);
@@ -33,7 +44,7 @@ export let randomRisk = 0;
 export let IsX2Score = false;
 export let mouseDown = false;
 export let modeGameSelect;
-export let selectedValue ;
+export let selectedValue;
 export let currentSelectedLevel;
 export let storageLevelMode = "LevelStorage";
 export let storageChallengeMode = "ChallengeStorage"
@@ -78,10 +89,11 @@ export var skills = [
 //---------Set Cash + skill storage--------
 export var startCashNumber = 100000000;
 export function UpdateCash() {
+    console.log("abc4: ", newUID)
     if (localStorage.getItem(storageCash) !== null) {
-        
+
         startCashNumber = localStorage.getItem(storageCash);
-        
+
         cash.innerHTML = `Cash: ${startCashNumber}`;
 
     } else {
@@ -91,13 +103,13 @@ export function UpdateCash() {
     }
 }
 export function UpdateUpgradeSkill() {
-    
-    if (localStorage.getItem(storeSkill)!== null) {
-        
+
+    if (localStorage.getItem(storeSkill) !== null) {
+
         skills = getStore(storeSkill);
-        
+
     } else {
-        
+
         setStore(storeSkill, skills);
     }
 }
@@ -109,8 +121,6 @@ export function UpdateUpgradeSkill() {
 export function setPlayer(field, value) {
     if (field in player) {
         player[field] = value;
-    } else {
-        console.log(`Invalid field: ${field}`);
     }
 }
 
@@ -118,8 +128,6 @@ export function setPlayer(field, value) {
 export function setKeys(field, value) {
     if (field in keys) {
         keys[field] = value;
-    } else {
-        console.log(`Invalid field: ${field}`);
     }
 }
 
@@ -194,7 +202,7 @@ export function setSelectedValue(value) {
 }
 
 export function setCurrentSelectedLevel(value) {
-    
+
     currentSelectedLevel = value;
 }
 
@@ -268,24 +276,28 @@ export function ResetPlayerMaxSpeedArray(newArray) {
 export function setEnemySpeedArray(position, value) {
     if (position >= 0 && position < enemySpeedArray.length) {
         enemySpeedArray[position] = value;
-    } else {
-        console.log(`Invalid position: ${position}`);
     }
 }
 
 export function setPlayerSpeedArray(position, value) {
-    
+
     if (position >= 0 && position < playerSpeedArray.length) {
         playerSpeedArray[position] = value;
-    } else {
-        console.log(`Invalid position: ${position}`);
     }
 }
 
 export function setPlayerMaxSpeedArray(position, value) {
     if (position >= 0 && position < playerMaxSpeedArray.length) {
         playerMaxSpeedArray[position] = value;
-    } else {
-        console.log(`Invalid position: ${position}`);
+    }
+}
+export function setstartCashNumber(value) {
+    startCashNumber = value;
+}
+
+export function setSkillField(name, field, value) {
+    const skill = skills.find(s => s.name === name);
+    if (skill) {
+        skill[field] = value;
     }
 }
