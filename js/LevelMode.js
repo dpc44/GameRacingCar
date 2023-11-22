@@ -1,56 +1,61 @@
 import {
-     CreateRisk,
-     MoveRisk,
-     UsedHeartTime,
-     UsedMoneyTime,
-     UsedRiskTime,
-     UsedStarTime,
-     clearInternalRemaining,
-      createMoney,
-      createstar,
-      endGame,
-      getMoney,
-      getRandomPosition, 
-      getRandomUniqueNumber, 
-      getStar, 
-      heartInterval,
-       moneyInterval, 
-       moveVehicles, 
-       movelines, 
-       riskInterval, 
-       setCountHeartTime, 
-       setCountMoneyTime, 
-       setCountRiskTime, 
-       setCountStarTime, 
-       setCountTimerInterval, 
-       setHeartInterval, 
-       setMoneyInterval, 
-       setRiskInterval, 
-       setStarInterval, 
-       starInterval, 
-       turnOffInternal,
-       updateCountTime} from "./ChallengeMode.js";
-import { BestScoreLevelMode, 
-    carColor, 
-    counter, 
-    currentSelectedLevel, 
-    enemyLevelArray, 
-    finishedConditionArray, 
-    getStore, 
-    hearts, 
-    keys, 
-    player, 
-    previousRandomNumbersLeft, 
-    previousRandomNumbersRight, 
-    randomRisk, 
-    randomStar, 
-    roadarea, 
-    setBestScoreLevelMode, 
-    setHearts, 
-    setPlayer, 
-    setStore, 
-    startCountTime, 
-    storageLevelMode } from "./index.js";
+    CreateRisk,
+    MoveRisk,
+    UsedHeartTime,
+    UsedMoneyTime,
+    UsedRiskTime,
+    UsedStarTime,
+    clearInternalRemaining,
+    createMoney,
+    createstar,
+    endGame,
+    getMoney,
+    getRandomPosition,
+    getRandomUniqueNumber,
+    getStar,
+    heartInterval,
+    moneyInterval,
+    moveVehicles,
+    movelines,
+    riskInterval,
+    setCountHeartTime,
+    setCountMoneyTime,
+    setCountRiskTime,
+    setCountStarTime,
+    setCountTimerInterval,
+    setHeartInterval,
+    setMoneyInterval,
+    setRiskInterval,
+    setStarInterval,
+    starInterval,
+    turnOffInternal,
+    updateCountTime
+} from "./ChallengeMode.js";
+import { newUID } from "./FireBaseConfig.js";
+import { GetValueFireBase, UpdateDataFireBase } from "./FireBaseFunctions.js";
+import {
+    BestScoreLevelMode,
+    carColor,
+    counter,
+    currentSelectedLevel,
+    enemyLevelArray,
+    finishedConditionArray,
+    getStore,
+    hearts,
+    keys,
+    player,
+    previousRandomNumbersLeft,
+    previousRandomNumbersRight,
+    randomRisk,
+    randomStar,
+    roadarea,
+    setBestScoreLevelMode,
+    setHearts,
+    setPlayer,
+    setStore,
+    startCountTime,
+    storageLevelMode
+} from "./index.js";
 
 function compareTimes(time1, time2) {
     const [minutes1, seconds1] = time1.split(':').map(Number);
@@ -76,26 +81,22 @@ function formatTime(currentTime) {
     return `${minutes}:${seconds}`;
 }
 
-function finishGame() {
+async function finishGame() {
 
     if (counter * 10 >= finishedConditionArray[currentSelectedLevel]) {
         setBestScoreLevelMode(currentSelectedLevel, formatTime(Date.now() - startCountTime))
-        if (localStorage.getItem(storageLevelMode) !== null) {
-            
-            let checkvalue = getStore(storageLevelMode);
-            let finalValue;
-            if(checkvalue[currentSelectedLevel] === "00:00"){
-                finalValue = BestScoreLevelMode[currentSelectedLevel];
-            }else{
-                finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
-            }
-            setBestScoreLevelMode(currentSelectedLevel,finalValue )
-            setStore(storageLevelMode, BestScoreLevelMode)
-
+        const userPath = `users/${newUID}/BestScoreLevelMode`;
+        const userPath2 = `users/${newUID}`;
+        var checkvalue = await GetValueFireBase(userPath)
+        let finalValue;
+        if (checkvalue[currentSelectedLevel] === "00:00") {
+            finalValue = BestScoreLevelMode[currentSelectedLevel];
         } else {
-            
-            setStore(storageLevelMode, BestScoreLevelMode)
+            finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
         }
+        console.log("before: ", BestScoreLevelMode )
+        setBestScoreLevelMode(currentSelectedLevel, finalValue)
+        await UpdateDataFireBase(userPath2,"BestScoreLevelMode",BestScoreLevelMode);
         endGame()
     }
 }
@@ -134,16 +135,16 @@ function getHeartPoint(playerCar, heart) {
         if (hearts < 3) {
             let heartsIcons = document.querySelectorAll('.far.fa-heart');
             heartsIcons[0].classList.replace('far', 'fas');
-            setHearts(hearts+1);
+            setHearts(hearts + 1);
         }
         heart.remove();
     }
 }
 export function playerarea2() {
-    
+
     let playerCar = document.querySelector('.car');
     let barrier = document.querySelector('.barrier');
-    
+
     let star;
     if (randomStar === 0) {
         star = document.querySelector('.star');
@@ -169,7 +170,7 @@ export function playerarea2() {
             setCountStarTime(Date.now())
         }
         if (!heartInterval) {
-            setHeartInterval(setInterval(createHeartPoint, 9000 - UsedHeartTime ))
+            setHeartInterval(setInterval(createHeartPoint, 9000 - UsedHeartTime))
             setCountHeartTime(Date.now())
         }
         if (!moneyInterval) {
@@ -190,9 +191,9 @@ export function playerarea2() {
         if (heartPoint) {
             getHeartPoint(playerCar, heartPoint);
         }
-        
+
         if (moneyPoint) {
-            getMoney(playerCar,moneyPoint);
+            getMoney(playerCar, moneyPoint);
         }
         if (risk) {
             MoveRisk(playerCar, risk);
@@ -238,7 +239,7 @@ export function playerarea2() {
 export function init2() {
     // Clear the HTML content of the roadarea
     roadarea.innerHTML = "";
-    
+
     // Set the player's start status to true
     setPlayer('start', true);
     // Set up the interval for updating the count time

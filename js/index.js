@@ -1,10 +1,10 @@
 import { newUID } from "./FireBaseConfig.js";
 
-import { getUser } from "./checkLogined.js";
+import { GetValueFireBase, getUser } from "./FireBaseFunctions.js";
 
-if(newUID){
+if (newUID) {
     console.log("start");
-}else{
+} else {
     console.log("wait");
     await getUser();
 }
@@ -87,20 +87,32 @@ export var skills = [
 ];
 
 //---------Set Cash + skill storage--------
-export var startCashNumber = 100000000;
-export function UpdateCash() {
-    console.log("abc4: ", newUID)
-    if (localStorage.getItem(storageCash) !== null) {
+export var startCashNumber = 0;
+export async function UpdateCash() {
+    console.log("go here?")
+    const userPath = `users/${newUID}/startCashNumber`;
+    GetValueFireBase(userPath)
+        .then(data => {
+            startCashNumber = data;
+            cash.innerHTML = `Cash: ${startCashNumber}`;
+        })
+        .catch(error => {
+            console.log("Error:", error);
+        });
 
-        startCashNumber = localStorage.getItem(storageCash);
 
-        cash.innerHTML = `Cash: ${startCashNumber}`;
 
-    } else {
-        setStore(storageCash, startCashNumber)
-        cash.innerHTML = `Cash: ${startCashNumber}`;
+    // if (localStorage.getItem(storageCash) !== null) {
 
-    }
+    //     startCashNumber = localStorage.getItem(storageCash);
+
+    //     cash.innerHTML = `Cash: ${startCashNumber}`;
+
+    // } else {
+    //     setStore(storageCash, startCashNumber)
+    //     cash.innerHTML = `Cash: ${startCashNumber}`;
+
+    // }
 }
 export function UpdateUpgradeSkill() {
 
@@ -300,4 +312,8 @@ export function setSkillField(name, field, value) {
     if (skill) {
         skill[field] = value;
     }
+}
+
+export function setAllValueBestLevelScore(value) {
+    BestScoreLevelMode = value;
 }
