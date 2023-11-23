@@ -1175,7 +1175,7 @@ function init() {
     }
 }
 
-document.getElementById('RetryButton').onclick = () => {
+document.getElementById('RetryButton').onclick = async () => {
     setIsX2Score(false);
     document.getElementById('X2Text').style.display = 'none';
     score.classList.remove('rainbow');
@@ -1192,7 +1192,7 @@ document.getElementById('RetryButton').onclick = () => {
         // let dataChallenge = getStore(storageChallengeMode);
         // document.querySelector('.best').innerHTML = `Best Record: ${dataChallenge}`;
         const userPath = `users/${newUID}/BestScoreChallengeMode`;
-        GetValueFireBase(userPath)
+        await GetValueFireBase(userPath)
             .then(data => {
                 document.querySelector('.best').innerHTML = `Best Record: ${data}`;
             })
@@ -1216,7 +1216,7 @@ document.getElementById('RetryButton').onclick = () => {
         // document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
 
         const userPath = `users/${newUID}/BestScoreLevelMode`;
-        GetValueFireBase(userPath)
+        await GetValueFireBase(userPath)
             .then(data => {
                 setAllValueBestLevelScore(data);
                 document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;
@@ -1232,13 +1232,13 @@ document.getElementById('RetryButton').onclick = () => {
     }
 }
 
-document.getElementById('StartButton').onclick = () => {
+document.getElementById('StartButton').onclick = async () => {
     setSelectedValue(document.getElementById('ModeGame').value)
 
     if (selectedValue == 0) {
 
         const userPath = `users/${newUID}/BestScoreChallengeMode`;
-        GetValueFireBase(userPath)
+        await GetValueFireBase(userPath)
             .then(data => {
                 document.querySelector('.best').innerHTML = `Best Record: ${data}`;
             })
@@ -1268,7 +1268,7 @@ document.getElementById('StartButton').onclick = () => {
         setCurrentSelectedLevel(+document.getElementById('LevelPart').value)
 
         const userPath = `users/${newUID}/BestScoreLevelMode`;
-        GetValueFireBase(userPath)
+        await GetValueFireBase(userPath)
             .then(data => {
                 setAllValueBestLevelScore(data);
                 document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;

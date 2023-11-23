@@ -80,18 +80,13 @@ export var cash = document.getElementById('cash');
 export let storageCash = "CashStorage"
 export let storeSkill = "UpgradeSkillStorage"
 
-export var skills = [
-    { name: 'shieldLevel', level: 0, money: 1000, effect: 0 },
-    { name: 'X2PointLevel', level: 0, money: 1000, effect: 0 },
-    { name: 'bounusLevel', level: 0, money: 1500, effect: 0 }
-];
-
+export var skills;
 //---------Set Cash + skill storage--------
 export var startCashNumber = 0;
 export async function UpdateCash() {
-    console.log("go here?")
+    console.log("UpdateCash")
     const userPath = `users/${newUID}/startCashNumber`;
-    GetValueFireBase(userPath)
+    await GetValueFireBase(userPath)
         .then(data => {
             startCashNumber = data;
             cash.innerHTML = `Cash: ${startCashNumber}`;
@@ -99,31 +94,12 @@ export async function UpdateCash() {
         .catch(error => {
             console.log("Error:", error);
         });
-
-
-
-    // if (localStorage.getItem(storageCash) !== null) {
-
-    //     startCashNumber = localStorage.getItem(storageCash);
-
-    //     cash.innerHTML = `Cash: ${startCashNumber}`;
-
-    // } else {
-    //     setStore(storageCash, startCashNumber)
-    //     cash.innerHTML = `Cash: ${startCashNumber}`;
-
-    // }
 }
-export function UpdateUpgradeSkill() {
-
-    if (localStorage.getItem(storeSkill) !== null) {
-
-        skills = getStore(storeSkill);
-
-    } else {
-
-        setStore(storeSkill, skills);
-    }
+export async function UpdateUpgradeSkill() {
+    console.log("UpdateUpgradeSkill")
+    const userPath = `users/${newUID}/skills`;
+    skills = await GetValueFireBase(userPath);
+    console.log(skills)
 }
 //------------SetFunction----------
 

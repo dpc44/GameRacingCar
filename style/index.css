@@ -29,7 +29,7 @@
     font-size: 1.5em;
 
 }
-#cash{
+#signOut{
     position: absolute;
     top: 100px;
     left: 1130px;
@@ -41,9 +41,28 @@
     border-radius: 4px;
     font-size: 1.5em;
 }
-#UpgradeShop{
+#signOut:hover{
+    
+    background-color: rgb(21, 184, 94);
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+#cash{
     position: absolute;
     top: 150px;
+    left: 1130px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em;
+}
+
+#UpgradeShop{
+    position: absolute;
+    top: 200px;
     left: 1130px;
     text-align: center;
     background-color: rgb(100, 224, 156);

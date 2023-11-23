@@ -1,6 +1,6 @@
 import { firebaseConfig, newUID, setNewUID } from "./FireBaseConfig.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 
@@ -61,3 +61,15 @@ export function UpdateDataFireBase(path, key, newData) {
             });
     });
 }
+
+function signOutUser(){
+    signOut(auth)
+        .then(() => {
+            window.location.href = 'Login.html';
+        })
+        .catch((error) => {
+            // Handle errors during logout
+            console.error("Logout error:", error);
+        });
+}
+window.signOutUser = signOutUser;
