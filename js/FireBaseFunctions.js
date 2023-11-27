@@ -73,3 +73,37 @@ function signOutUser(){
         });
 }
 window.signOutUser = signOutUser;
+
+export async function getAllUsersData() {
+    try {
+        // Assuming you have a reference to the 'users' node in your database
+        const usersRef = ref(db, 'users');
+
+        // Retrieve data for all users
+        const usersSnapshot = await get(usersRef);
+
+        if (usersSnapshot.exists()) {
+            // usersSnapshot.val() contains an object with user IDs as keys and user data as values
+            const usersData = usersSnapshot.val();
+
+            // Convert the object to an array, excluding the UID from each user's data
+            const usersArray = Object.keys(usersData).map((userId) => {
+                const userData = usersData[userId];
+                // Exclude UID from user data
+                const { uid, ...userDataWithoutUid } = userData;
+                return userDataWithoutUid;
+            });
+
+            // Now you can work with usersArray
+            console.log('Users Data:', usersArray);
+
+            return usersArray;
+        } else {
+            console.log('No users found');
+            return [];
+        }
+    } catch (error) {
+        console.error('Error getting users data:', error);
+        throw error;
+    }
+}

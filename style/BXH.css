@@ -1,0 +1,81 @@
+.containerGame {
+  background-image: url('../img/bg.jpg');
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#BXHScreen {
+  background-color: rgb(100, 224, 156);
+  position: absolute;
+  left: 18vw;
+  top: 5vh;
+  color: white;
+  z-index: 1001;
+  /* height: 600px; */
+  width: 1000px;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 25px rgba(255, 255, 255, 0.8);
+
+}
+
+.featured .nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 3px solid #dc4f72;
+  color: #dc4f72;
+}
+
+.tabs {
+  display: flex;
+}
+
+.tablinks {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 1rem;
+  font-weight: 900;
+  font-size: 22px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  color: #000;
+}
+
+.tablinks:hover {
+  /* background:blue; */
+
+  color: #fff;
+}
+
+/* Tab active */
+.tablinks.active {
+  border: none;
+  border-bottom: 2px solid #dc4f72;
+  color: #dc4f72;
+}
+
+/* tab content */
+.tabcontent {
+  display: none;
+}
+
+/* Text*/
+.tabcontent p {
+  color: #333;
+  font-size: 16px;
+}
+
+/* tab content active */
+.tabcontent.active {
+  display: block;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: #dc4f72 !important;
+}

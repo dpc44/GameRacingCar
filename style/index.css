@@ -80,6 +80,27 @@
     background-color: rgb(21, 184, 94);
     transition: background-color 0.3s;
 }
+
+#BXH{
+    position: absolute;
+    top: 250px;
+    left: 1130px;
+    text-align: center;
+    background-color: rgb(100, 224, 156);
+    width: 200px;
+    color: rgb(59, 40, 40);
+    line-height: 40px;
+    border-radius: 4px;
+    font-size: 1.5em; 
+    cursor: pointer;
+    text-decoration: none; 
+}
+
+#BXH:hover{
+    
+    background-color: rgb(21, 184, 94);
+    transition: background-color 0.3s;
+}
 #X2Text {
     position: absolute;
     top: 100px;

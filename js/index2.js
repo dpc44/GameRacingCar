@@ -3,8 +3,8 @@ import { UpdateDataFireBase, getUser } from "./FireBaseFunctions.js";
 import { UpdateCash, UpdateUpgradeSkill, setSkillField, setStore, setstartCashNumber, skills, startCashNumber, storageCash, storeSkill } from "./index.js";
 
 
-UpdateUpgradeSkill();
-UpdateCash();
+await UpdateUpgradeSkill();
+await UpdateCash();
 OpenShop();
 
 

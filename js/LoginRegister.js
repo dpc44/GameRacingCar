@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebas
 import {
     getAuth, createUserWithEmailAndPassword,
     signInWithEmailAndPassword, GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup, FacebookAuthProvider
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
@@ -13,6 +13,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 function register() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -103,8 +104,45 @@ function signInWithGoogle() {
         });
 }
 
+function signInWithFacebook() {
+    signInWithPopup(auth, facebookProvider)
+        .then((result) => {
+            const user = result.user;
+            const databaseRef = ref(database, 'users/' + user.uid);
+            
+            get(databaseRef)
+                .then((snapshot) => {
+                    if (!snapshot.exists()) {
+                        const email = user.email;
+                        const userData = {
+                            email: email,
+                            skills: [
+                                { name: 'shieldLevel', level: 0, money: 1000, effect: 0 },
+                                { name: 'X2PointLevel', level: 0, money: 1000, effect: 0 },
+                                { name: 'bounusLevel', level: 0, money: 1500, effect: 0 }
+                            ],
+                            BestScoreLevelMode: ["00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00", "00:00"],
+                            BestScoreChallengeMode: 0,
+                            startCashNumber: 0,
+                            LastLogin: Date.now()
 
 
+                        };
+                        set(databaseRef, userData);
+                        
+                    }
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    console.error('Error retrieving user data:', error);
+                });
+        })
+        .catch((error) => {
+            // Handle errors during Facebook sign-in
+            console.error("Facebook sign-in error", error);
+        });
+}
+window.signInWithFacebook = signInWithFacebook;
 window.signInWithGoogle = signInWithGoogle;
 window.signIn = signIn;
 window.register = register;
