@@ -40,7 +40,6 @@ import {
     currentSelectedLevel,
     enemyLevelArray,
     finishedConditionArray,
-    getStore,
     hearts,
     keys,
     player,
@@ -52,7 +51,6 @@ import {
     setBestScoreLevelMode,
     setHearts,
     setPlayer,
-    setStore,
     startCountTime,
     storageLevelMode
 } from "./index.js";

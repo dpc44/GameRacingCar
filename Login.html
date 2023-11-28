@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+
 <body>
     <div class="containerGame">
         <form id="formLogin">
@@ -15,29 +17,33 @@
             <hr>
             <div class="form-group">
                 <label for="email" class="fs-5 fw-bold">Email address</label>
-                <input type="email" class="form-control mt-2" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-              </div>
-              <div class="form-group">
+                <input type="email" class="form-control mt-2" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
                 <label for="password" class="fs-5 fw-bold">Password</label>
                 <input type="password" class="form-control mt-2" id="password" placeholder="Password" required>
-              </div>
+            </div>
 
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-success mx-2" id="signInBtn" onclick="signIn()">Sign In</button>
-                <button type="button" class="btn btn-success mx-2" id="registerBtn" onclick="register()">Register</button>
+                <button type="button" class="btn btn-success mx-2" id="registerBtn"
+                    onclick="register()">Register</button>
             </div>
             <div class="d-flex justify-content-center mt-3">
-                <button type="button" class="btn btn-primary mx-2" id="googleLoginBtn" onclick="signInWithGoogle()">Login with Google</button>
-                <button type="button" class="btn btn-primary mx-2" id="facebookLoginBtn" onclick="signInWithFacebook()">Login with Facebook</button>
+                <button type="button" class="btn btn-primary mx-2" id="googleLoginBtn"
+                    onclick="signInWithGoogle()">Login with Google</button>
+                <button type="button" class="btn btn-primary mx-2" id="facebookLoginBtn"
+                    onclick="signInWithFacebook()">Login with Facebook</button>
             </div>
         </form>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    
     <script type="module" src="./js/LoginRegister.js"></script>
 </body>
+
 </html>

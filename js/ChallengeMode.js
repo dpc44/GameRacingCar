@@ -3,7 +3,6 @@ import { GetValueFireBase, UpdateDataFireBase } from "./FireBaseFunctions.js";
 import { init2, playerarea2 } from "./LevelMode.js";
 
 import {
-    setStore,
     UpdateCash,
     UpdateUpgradeSkill,
     player,

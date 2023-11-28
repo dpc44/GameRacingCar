@@ -6,7 +6,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { firebaseConfig, setNewUID } from "./FireBaseConfig.js";
+import { firebaseConfig } from "./FireBaseConfig.js";
+import { UserStorage, setStore } from "./StoragetokenFunction.js";
+
 
 
 const app = initializeApp(firebaseConfig);
@@ -37,7 +39,7 @@ function register() {
             }
             const databaseRef = ref(database, 'users/' + user.uid);
             set(databaseRef, user_data);
-
+            
             alert("created user")
         }).catch(function (error) {
             alert(error)
@@ -57,7 +59,7 @@ function signIn() {
 
             const databaseRef = ref(database, 'users/' + user.uid);
             update(databaseRef, user_data);
-
+            setStore(UserStorage, {email: email,uid: user.uid});
             window.location.href = 'index.html';
         }).catch(function (error) {
             alert(error)
@@ -93,6 +95,7 @@ function signInWithGoogle() {
                         set(databaseRef, userData);
                         
                     }
+                    setStore(UserStorage, {email: email,uid: user.uid});
                     window.location.href = 'index.html';
                 })
                 .catch((error) => {
@@ -131,6 +134,7 @@ function signInWithFacebook() {
                         set(databaseRef, userData);
                         
                     }
+                    setStore(UserStorage, {email: email,uid: user.uid});
                     window.location.href = 'index.html';
                 })
                 .catch((error) => {

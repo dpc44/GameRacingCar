@@ -9,19 +9,8 @@ if (newUID) {
     await getUser();
 }
 
-export function setStore(name, data) {
-    let sData = JSON.stringify(data);
-    localStorage.setItem(name, sData);
-}
 
-export function getStore(name) {
-    if (localStorage.getItem(name)) {
-        let sData = localStorage.getItem(name);
-        let data = JSON.parse(sData);
-        return data;
-    }
-    return {};
-}
+
 //--------------Variable-------------------
 export let player = { x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 }
 export let enemySpeed = 5;
