@@ -1,0 +1,12 @@
+{
+  "name": "Game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/dpc44/GameRacingCar.git",
+  "author": "dpc44 <caophat130896@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
