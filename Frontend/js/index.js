@@ -1,6 +1,7 @@
 import { newUID } from "./FireBaseConfig.js";
 
-import { GetValueFireBase, getUser } from "./FireBaseFunctions.js";
+import { GetValueFireBase, decodeToken, getUser } from "./FireBaseFunctions.js";
+import { UserStorage, getStore } from "./StoragetokenFunction.js";
 
 if (newUID) {
     console.log("start");
@@ -8,7 +9,8 @@ if (newUID) {
     console.log("wait");
     await getUser();
 }
-
+var token = getStore(UserStorage);
+await decodeToken(token)
 
 
 //--------------Variable-------------------
@@ -73,7 +75,6 @@ export var skills;
 //---------Set Cash + skill storage--------
 export var startCashNumber = 0;
 export async function UpdateCash() {
-    console.log("UpdateCash")
     const userPath = `users/${newUID}/startCashNumber`;
     await GetValueFireBase(userPath)
         .then(data => {
@@ -85,10 +86,8 @@ export async function UpdateCash() {
         });
 }
 export async function UpdateUpgradeSkill() {
-    console.log("UpdateUpgradeSkill")
     const userPath = `users/${newUID}/skills`;
     skills = await GetValueFireBase(userPath);
-    console.log(skills)
 }
 //------------SetFunction----------
 

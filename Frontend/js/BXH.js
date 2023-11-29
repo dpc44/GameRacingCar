@@ -83,7 +83,7 @@ function populateTableLevelMode(data, selectedLevel) {
 
    const displayData = filteredData.slice(0, Math.min(10, filteredData.length));
    displayData.forEach((entry, index) => {
-      console.log(entry.scores[0])
+
       const row = document.createElement('tr');
       row.innerHTML = `
        <th scope="row">${index+1}</th>

@@ -18,7 +18,6 @@ const db = getDatabase(app);
 function handleAuthStateChange(user) {
     if (user) {
         setNewUID(user.uid);
-        console.log("set complete");
     } else {
         window.location.href = 'Login.html';
     }
@@ -36,7 +35,6 @@ export async function getUser() {
 
 export function GetValueFireBase(path) {
     const dataRef = ref(db, path);
-    console.log(path)
     return new Promise((resolve, reject) => {
         onValue(dataRef, (snapshot) => {
             const data = snapshot.val();
@@ -52,7 +50,6 @@ export function GetValueFireBase(path) {
 export function UpdateDataFireBase(path, key, newData) {
     const dataRef = ref(db, path);
     const dataUpdate = { [key]: newData };
-    console.log("newData2: ", newData)
     return new Promise((resolve, reject) => {
 
         update(dataRef, dataUpdate)
@@ -101,7 +98,6 @@ export async function getAllUsersData() {
             });
 
             // Now you can work with usersArray
-            console.log('Users Data:', usersArray);
 
             return usersArray;
         } else {
@@ -114,17 +110,13 @@ export async function getAllUsersData() {
     }
 }
 
-
-async function decodeIdToken(idToken) {
-    try {
-        auth.getIdTokenResult(idToken).then((decodedToken) => {
-            console.log(decodedToken)
-        })
-        return uid;
-    } catch (error) {
-        console.error('Error decoding ID token:', error);
-        return null;
+export async function decodeToken(token) {
+    console.log("token2 : ", token)
+    try{
+        const response = await axios.post('http://localhost:3000/decodeToken', token);
+        return response.data;  // You may want to return the decoded token or other relevant data
+    }catch (error) {
+        console.error('Error decoding token:', error);
+        return null;  // Return null or handle the error as needed
     }
 }
-
-var test = decodeIdToken("eyJhbGciOiJSUzI1NiIsImtpZCI6IjBiYmQyOTllODU2MmU3MmYyZThkN2YwMTliYTdiZjAxMWFlZjU1Y2EiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoicGhhdCBjYW8iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSm4wTEFHV3k3UUJ5RHdvXzJIU1Z2aUp6bW1kc2E3cUxvOGRvdjZOeUNiPXM5Ni1jIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Zpci1jYXJ0cmFmZmljIiwiYXVkIjoiZmlyLWNhcnRyYWZmaWMiLCJhdXRoX3RpbWUiOjE3MDExNjUwODksInVzZXJfaWQiOiJycVEwbExRRGlRVHMyVzZja0pXaDdJWkpyNzkyIiwic3ViIjoicnFRMGxMUURpUVRzMlc2Y2tKV2g3SVpKcjc5MiIsImlhdCI6MTcwMTE2NTA4OSwiZXhwIjoxNzAxMTY4Njg5LCJlbWFpbCI6ImNhb3BoYXQxMzA4OTZAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMTU2NDA0NDg1MzgzNDc1MzkzNTIiXSwiZW1haWwiOlsiY2FvcGhhdDEzMDg5NkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.g2m7Y2Z2ydQH6P4gshr6syWejLDh8TNpTuq91o8gzpkZBb6npznlSObQ3qggoBlfdNR1HtHBARHZcxciy4qnAjQ-Exo5sEwOGIEyVVYyfq0ZUyKCBAan5ivPeud79VJuJ2klE0qcphviqmnZiEutVUebbYJPKvLKX6ax_L5Lr6n8Nn22jiYBGcDBV8jtSCFEIM3e_NYtU_G5AX0TCfFpZ3GJaCmHmuNMH3FTvwJZU9zpQKsb6rLjB3IdRhpzHUN2kCjgZZBrqDHT6hx6OVGp3scDAaoFc2ZUzEFl9mnDaosBYwWzI34Pn-QhELjuVQLqdcqcffeaL26ElWNxCIlBNA")

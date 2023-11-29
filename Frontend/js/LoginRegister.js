@@ -52,8 +52,8 @@ function signIn() {
     signInWithEmailAndPassword(auth, email, password)
         .then(async function () {
             var user = auth.currentUser;
-            const idToken = await getIdToken(user);
-            setStore(UserStorage, {idToken});
+            const token = await getIdToken(user);
+            setStore(UserStorage, {token});
             window.location.href = 'index.html';
         }).catch(function (error) {
             alert(error)
@@ -90,8 +90,8 @@ function signInWithGoogle() {
 
                     }
 
-                    const idToken = await getIdToken(user);
-                    setStore(UserStorage, {idToken});
+                    const token = await getIdToken(user);
+                    setStore(UserStorage, {token});
                     window.location.href = 'index.html';
                 })
                 .catch((error) => {
@@ -130,8 +130,8 @@ function signInWithFacebook() {
                         set(databaseRef, userData);
 
                     }
-                    const idToken = await getIdToken(user);
-                    setStore(UserStorage, { idToken });
+                    const token = await getIdToken(user);
+                    setStore(UserStorage, { token });
                     window.location.href = 'index.html';
                 })
                 .catch((error) => {

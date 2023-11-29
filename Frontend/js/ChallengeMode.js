@@ -486,10 +486,10 @@ export async function endGame() {
 
 
         var checkvalue = await GetValueFireBase(userPath);
-        console.log("checkvalue: ", checkvalue);
+
 
         if ((counter * 10) > checkvalue) {
-            console.log("best score")
+
             let bestvalue = counter * 10;
             setBestScoreChallengeMode(bestvalue);
             await UpdateDataFireBase(userPath2, "BestScoreChallengeMode", BestScoreChallengeMode);
@@ -1067,12 +1067,12 @@ export function CreateRisk() {
     let risk;
     setRandomRisk(Math.floor(Math.random() * 2))
     if (randomRisk == 0) {
-        console.log("create 0")
+
         risk = document.createElement('i');
         risk.classList.add('fas', 'fa-water', 'riskWater');
         risk.style.left = Math.floor(Math.random() * 350) + 'px';
     } else if (randomRisk == 1) {
-        console.log("create 1")
+
         risk = document.createElement('div');
         risk.setAttribute('class', 'police');
         let x;

@@ -92,7 +92,6 @@ async function finishGame() {
         } else {
             finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
         }
-        console.log("before: ", BestScoreLevelMode )
         setBestScoreLevelMode(currentSelectedLevel, finalValue)
         await UpdateDataFireBase(userPath2,"BestScoreLevelMode",BestScoreLevelMode);
         endGame()
