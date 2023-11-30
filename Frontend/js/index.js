@@ -1,16 +1,24 @@
-import { newUID } from "./FireBaseConfig.js";
+import { newUID, setNewUID } from "./FireBaseConfig.js";
 
-import { GetValueFireBase, decodeToken, getUser } from "./FireBaseFunctions.js";
-import { UserStorage, getStore } from "./StoragetokenFunction.js";
+import { GetValueFireBase, decodeToken, getRefreshUserToken } from "./FireBaseFunctions.js";
+import { UserStorage, getStore, setStore } from "./StoragetokenFunction.js";
 
-if (newUID) {
-    console.log("start");
+if (localStorage.getItem(UserStorage) == null) {
+    window.location.href = '../login.html';
 } else {
-    console.log("wait");
-    await getUser();
+    var token = getStore(UserStorage);
+
+    var uid = await decodeToken(token)
+    if (uid) {
+        setNewUID(uid.uid)
+    } else {
+        // token = await getRefreshUserToken();
+        // setStore(UserStorage, { token });
+        // window.location.reload();
+    }
+
 }
-var token = getStore(UserStorage);
-await decodeToken(token)
+
 
 
 //--------------Variable-------------------
@@ -75,6 +83,7 @@ export var skills;
 //---------Set Cash + skill storage--------
 export var startCashNumber = 0;
 export async function UpdateCash() {
+
     const userPath = `users/${newUID}/startCashNumber`;
     await GetValueFireBase(userPath)
         .then(data => {
@@ -84,10 +93,15 @@ export async function UpdateCash() {
         .catch(error => {
             console.log("Error:", error);
         });
+
 }
 export async function UpdateUpgradeSkill() {
     const userPath = `users/${newUID}/skills`;
-    skills = await GetValueFireBase(userPath);
+    try {
+        skills = await GetValueFireBase(userPath);
+    } catch (error) {
+        console.error('Error updating skills:', error);
+    }
 }
 //------------SetFunction----------
 

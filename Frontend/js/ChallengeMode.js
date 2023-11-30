@@ -117,8 +117,7 @@ document.getElementById('ModeGame').addEventListener('change', function () {
     }
 });
 function clearStats() {
-
-    setAllDetailPlayer({ x: 0, y: 0, speed: 6, start: false, pause: false, maxSpeed: 8 });
+    setAllDetailPlayer(0, 0, 6, false, false, 8);
     setEnemySpeed(5);
     ResetEnemySpeedArray([5, 5.5, 6, 6.5, 7, 7.5, 8.0, 8.5, 9, 9.5]);
     setHearts(3);
@@ -583,6 +582,8 @@ function handleMouseUp(event) {
                 setPlayerSpeedArray(currentSelectedLevel, tempPlaySpeed)
                 setEnemySpeedArray(currentSelectedLevel, tempEnemySpeed)
             }
+        }else{
+            
         }
 
     }
@@ -775,7 +776,7 @@ function LevelUp() {
             if (mouseDown === true) {
                 setTempPlaySpeed(tempPlaySpeed + 0.5);
             } else {
-                setPlayer('speed', 0.5);
+                setPlayer('speed', player.speed + 0.5);
             }
         }
     }
@@ -897,11 +898,13 @@ export function MoveRisk(playerCar, risk) {
         playerCarBound.left > riskBound.right)) {
         if (randomRisk === 0) {
             setPlayer("speed", player.speed - 2)
+            setPlayer("maxSpeed", player.maxSpeed - 2)
             risk.remove();
             UsedRiskTime = 0;
             setIsSlow(true);
             setTimeout(function () {
                 setPlayer("speed", player.speed + 2)
+                setPlayer("maxSpeed", player.maxSpeed + 2)
                 setIsSlow(false);
 
             }, 3000);
@@ -979,7 +982,7 @@ function playerarea() {
         if (risk) {
             MoveRisk(playerCar, risk);
         }
-        if (keys.w && player.y > (road.top + 20)) {
+        if (keys.w && player.y > (road.top)) {
             setPlayer("y", player.y - player.speed)
 
         }
@@ -1176,6 +1179,7 @@ function init() {
 
 document.getElementById('RetryButton').onclick = async () => {
     setIsX2Score(false);
+    clearStats();
     document.getElementById('X2Text').style.display = 'none';
     score.classList.remove('rainbow');
     if (selectedValue == 0) {
@@ -1294,6 +1298,7 @@ document.getElementById('ResumeButton').onclick = () => {
 
 function backToMainScreen() {
     roadarea.innerHTML = "";
+    clearStats()
     let PauseScreen = document.getElementById('PauseScreen');
     PauseScreen.style.display = 'none';
     setPlayer('pause', false);

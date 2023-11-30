@@ -29,8 +29,6 @@ app.post('/decodeToken', async (req, res) => {
     // Decode the ID token
     const decodedToken = await admin.auth().verifyIdToken(token);
     const uid = decodedToken.uid;
-
-    // Send the UID as the response
     res.json({ uid });
   } catch (error) {
     console.error('Error decoding ID token:', error);

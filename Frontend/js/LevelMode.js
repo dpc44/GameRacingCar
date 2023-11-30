@@ -195,7 +195,7 @@ export function playerarea2() {
         if (risk) {
             MoveRisk(playerCar, risk);
         }
-        if (keys.w && player.y > (road.top + 20)) {
+        if (keys.w && player.y > (road.top)) {
             setPlayer("y", player.y - player.speed)
 
         }

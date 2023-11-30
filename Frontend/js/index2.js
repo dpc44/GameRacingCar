@@ -1,11 +1,15 @@
-import { newUID } from "./FireBaseConfig.js";
-import { UpdateDataFireBase, getUser } from "./FireBaseFunctions.js";
-import { UpdateCash, UpdateUpgradeSkill, setSkillField, setStore, setstartCashNumber, skills, startCashNumber, storageCash, storeSkill } from "./index.js";
+import { newUID, setNewUID } from "./FireBaseConfig.js";
+import { UpdateDataFireBase } from "./FireBaseFunctions.js";
+import { UpdateCash, UpdateUpgradeSkill, setSkillField, setstartCashNumber, skills, startCashNumber } from "./index.js";
+import { UserStorage, getStore } from "./StoragetokenFunction.js";
 
+if (localStorage.getItem(UserStorage) == null) {
+    window.location.href = '../login.html';
+} else {
+    await Promise.all([UpdateCash(), UpdateUpgradeSkill()]);
+    OpenShop();
+}
 
-await UpdateUpgradeSkill();
-await UpdateCash();
-OpenShop();
 
 
 function OpenShop() {

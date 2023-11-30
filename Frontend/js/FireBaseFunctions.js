@@ -2,10 +2,10 @@ import { firebaseConfig, newUID, setNewUID } from "./FireBaseConfig.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import {
     getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    onAuthStateChanged, signOut
+    onAuthStateChanged, signOut, getIdToken
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
-import { UserStorage } from "./StoragetokenFunction.js";
+import { UserStorage, getStore, setStore } from "./StoragetokenFunction.js";
 
 
 
@@ -15,39 +15,57 @@ const db = getDatabase(app);
 
 // Check if the user is logged in
 
-function handleAuthStateChange(user) {
-    if (user) {
-        setNewUID(user.uid);
-    } else {
-        window.location.href = 'Login.html';
+
+
+export async function getRefreshUserToken() {
+    return new Promise((resolve, reject) => {
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                reject("No user found");
+            }
+            try {
+                const token = await user.getIdToken(true);
+                resolve(token);
+            } catch (error) {
+                console.error("Error refreshing user token:", error);
+                reject(error);
+            }
+        });
+    });
+}
+
+
+export async function GetValueFireBase(path) {
+    var token = getStore(UserStorage);
+    var checkToken = await decodeToken(token);
+    
+    if (checkToken == null) {
+        token = await getRefreshUserToken();
+        setStore(UserStorage, token); // Update with the new token value
+    }
+
+    const dataRef = ref(db, path);
+    
+    try {
+        const snapshot = await get(dataRef);
+        const data = snapshot.val();
+        return data;
+    } catch (error) {
+        console.error('Firebase error:', error);
+        throw error; // Re-throw the error to be caught by the caller
     }
 }
 
-export async function getUser() {
-    return new Promise((resolve, reject) => {
-        onAuthStateChanged(auth, (user) => {
-            handleAuthStateChange(user);
-            resolve();
-        });
-    });
-}
 
 
-export function GetValueFireBase(path) {
-    const dataRef = ref(db, path);
-    return new Promise((resolve, reject) => {
-        onValue(dataRef, (snapshot) => {
-            const data = snapshot.val();
-            resolve(data);
-        }, (error) => {
-            console.error('Firebase error:', error);
-            reject(error);
-        });
-    });
-}
-
-
-export function UpdateDataFireBase(path, key, newData) {
+export async function UpdateDataFireBase(path, key, newData) {
+    var token = getStore(UserStorage);
+    var checkToken = await decodeToken(token);
+    
+    if (checkToken == null) {
+        token = await getRefreshUserToken();
+        setStore(UserStorage, token); // Update with the new token value
+    }
     const dataRef = ref(db, path);
     const dataUpdate = { [key]: newData };
     return new Promise((resolve, reject) => {
@@ -112,10 +130,11 @@ export async function getAllUsersData() {
 
 export async function decodeToken(token) {
     console.log("token2 : ", token)
-    try{
+    try {
         const response = await axios.post('http://localhost:3000/decodeToken', token);
+        // console.log("decodeToken: ", response.data)
         return response.data;  // You may want to return the decoded token or other relevant data
-    }catch (error) {
+    } catch (error) {
         console.error('Error decoding token:', error);
         return null;  // Return null or handle the error as needed
     }
