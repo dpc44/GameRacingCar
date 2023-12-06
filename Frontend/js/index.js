@@ -84,8 +84,8 @@ export var skills;
 export var startCashNumber = 0;
 export async function UpdateCash() {
 
-    const userPath = `users/${newUID}/startCashNumber`;
-    await GetValueFireBase(userPath)
+    const field = `startCashNumber`;
+    await GetValueFireBase(field)
         .then(data => {
             startCashNumber = data;
             cash.innerHTML = `Cash: ${startCashNumber}`;
@@ -96,9 +96,9 @@ export async function UpdateCash() {
 
 }
 export async function UpdateUpgradeSkill() {
-    const userPath = `users/${newUID}/skills`;
+    const field = `skills`;
     try {
-        skills = await GetValueFireBase(userPath);
+        skills = await GetValueFireBase(field);
     } catch (error) {
         console.error('Error updating skills:', error);
     }
@@ -233,6 +233,7 @@ export function setHearts(value) {
 }
 
 export function setBestScoreLevelMode(index, value) {
+    console.log("value: ", index,"++++", value)
     BestScoreLevelMode[index] = value;
 }
 

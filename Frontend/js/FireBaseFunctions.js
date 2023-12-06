@@ -12,9 +12,13 @@ import { UserStorage, getStore, setStore } from "./StoragetokenFunction.js";
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-
-// Check if the user is logged in
-
+const BASE_URL = 'http://localhost:3000';
+const tokenObject = JSON.parse(localStorage.getItem(UserStorage));
+const options = {
+    headers: {
+        'token': tokenObject.token,
+    },
+};
 
 
 export async function getRefreshUserToken() {
@@ -35,51 +39,38 @@ export async function getRefreshUserToken() {
 }
 
 
-export async function GetValueFireBase(path) {
-    var token = getStore(UserStorage);
-    var checkToken = await decodeToken(token);
-    
-    if (checkToken == null) {
-        token = await getRefreshUserToken();
-        setStore(UserStorage, token); // Update with the new token value
-    }
 
-    const dataRef = ref(db, path);
-    
+export async function GetValueFireBase(field) {
     try {
-        const snapshot = await get(dataRef);
-        const data = snapshot.val();
-        return data;
+
+        const response = await axios.post(`${BASE_URL}/api/getValue`, { field }, options);
+        // Assuming the server returns data in the response.data property
+        return response.data;
     } catch (error) {
-        console.error('Firebase error:', error);
-        throw error; // Re-throw the error to be caught by the caller
+        // Log details of the error response
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+        }
+
+        throw error;
     }
 }
 
 
+export async function UpdateDataFireBase(key, newData) {
+    try {
+        // Assuming options is defined before this function is called
+        const response = await axios.post(`${BASE_URL}/api/updateData`, {key, newData }, options);
+        // Assuming the server returns data in the response.data property
+        console.log("response: ", response)
+    } catch (error) {
+        // Log details of the error response
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+        }
 
-export async function UpdateDataFireBase(path, key, newData) {
-    var token = getStore(UserStorage);
-    var checkToken = await decodeToken(token);
-    
-    if (checkToken == null) {
-        token = await getRefreshUserToken();
-        setStore(UserStorage, token); // Update with the new token value
+        throw error;
     }
-    const dataRef = ref(db, path);
-    const dataUpdate = { [key]: newData };
-    return new Promise((resolve, reject) => {
-
-        update(dataRef, dataUpdate)
-            .then(() => {
-                console.log("Data updated successfully");
-                resolve();
-            })
-            .catch((error) => {
-                console.log("Error updating data:", error);
-                reject(error);
-            });
-    });
 }
 
 function signOutUser() {
@@ -129,7 +120,6 @@ export async function getAllUsersData() {
 }
 
 export async function decodeToken(token) {
-    console.log("token2 : ", token)
     try {
         const response = await axios.post('http://localhost:3000/decodeToken', token);
         // console.log("decodeToken: ", response.data)
@@ -139,3 +129,18 @@ export async function decodeToken(token) {
         return null;  // Return null or handle the error as needed
     }
 }
+
+axios.interceptors.response.use(response => response, async error => {
+    if (error.response.data.error.code === "auth/id-token-expired") {
+        var token = await getRefreshUserToken();
+        setStore(UserStorage, {token});
+        // window.location.reload();
+        const originalRequest = error.config;
+        originalRequest.headers['token'] = token;
+        originalRequest._retry = originalRequest._retry || false;
+        if (!originalRequest._retry) {
+            originalRequest._retry = true;
+            return axios(originalRequest);
+        }
+    }
+});

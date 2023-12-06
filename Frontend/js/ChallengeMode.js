@@ -473,9 +473,8 @@ export async function endGame() {
     document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
     GameOverScreen.style.display = 'block';
     let CashValue = (counter * 5) + parseInt(startCashNumber, 10);
-    const userPath = `users/${newUID}/BestScoreChallengeMode`;
-    const userPath2 = `users/${newUID}`;
-    await UpdateDataFireBase(userPath2, "startCashNumber", CashValue);
+    const field = `BestScoreChallengeMode`;
+    await UpdateDataFireBase("startCashNumber", CashValue);
     UpdateCash();
     clearStats();
     turnOffInternal();
@@ -484,14 +483,14 @@ export async function endGame() {
 
 
 
-        var checkvalue = await GetValueFireBase(userPath);
+        var checkvalue = await GetValueFireBase(field);
 
 
         if ((counter * 10) > checkvalue) {
 
             let bestvalue = counter * 10;
             setBestScoreChallengeMode(bestvalue);
-            await UpdateDataFireBase(userPath2, "BestScoreChallengeMode", BestScoreChallengeMode);
+            await UpdateDataFireBase("BestScoreChallengeMode", BestScoreChallengeMode);
         }
 
         // if (localStorage.getItem(storageChallengeMode) !== null) {
@@ -1194,8 +1193,8 @@ document.getElementById('RetryButton').onclick = async () => {
         //---------Best Score--------------
         // let dataChallenge = getStore(storageChallengeMode);
         // document.querySelector('.best').innerHTML = `Best Record: ${dataChallenge}`;
-        const userPath = `users/${newUID}/BestScoreChallengeMode`;
-        await GetValueFireBase(userPath)
+        const field = `BestScoreChallengeMode`;
+        await GetValueFireBase(field)
             .then(data => {
                 document.querySelector('.best').innerHTML = `Best Record: ${data}`;
             })
@@ -1218,8 +1217,8 @@ document.getElementById('RetryButton').onclick = async () => {
         // let dataLevel = getStore(storageLevelMode)
         // document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
 
-        const userPath = `users/${newUID}/BestScoreLevelMode`;
-        await GetValueFireBase(userPath)
+        const field = `BestScoreLevelMode`;
+        await GetValueFireBase(field)
             .then(data => {
                 setAllValueBestLevelScore(data);
                 document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;
@@ -1240,8 +1239,8 @@ document.getElementById('StartButton').onclick = async () => {
 
     if (selectedValue == 0) {
 
-        const userPath = `users/${newUID}/BestScoreChallengeMode`;
-        await GetValueFireBase(userPath)
+        const field = `BestScoreChallengeMode`;
+        await GetValueFireBase(field)
             .then(data => {
                 document.querySelector('.best').innerHTML = `Best Record: ${data}`;
             })
@@ -1270,8 +1269,8 @@ document.getElementById('StartButton').onclick = async () => {
         StartGameScreen.style.display = 'none';
         setCurrentSelectedLevel(+document.getElementById('LevelPart').value)
 
-        const userPath = `users/${newUID}/BestScoreLevelMode`;
-        await GetValueFireBase(userPath)
+        const field = `BestScoreLevelMode`;
+        await GetValueFireBase(field)
             .then(data => {
                 setAllValueBestLevelScore(data);
                 document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;

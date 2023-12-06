@@ -82,10 +82,10 @@ function formatTime(currentTime) {
 async function finishGame() {
 
     if (counter * 10 >= finishedConditionArray[currentSelectedLevel]) {
+        
         setBestScoreLevelMode(currentSelectedLevel, formatTime(Date.now() - startCountTime))
-        const userPath = `users/${newUID}/BestScoreLevelMode`;
-        const userPath2 = `users/${newUID}`;
-        var checkvalue = await GetValueFireBase(userPath)
+        const field = `BestScoreLevelMode`;
+        var checkvalue = await GetValueFireBase(field)
         let finalValue;
         if (checkvalue[currentSelectedLevel] === "00:00") {
             finalValue = BestScoreLevelMode[currentSelectedLevel];
@@ -93,7 +93,7 @@ async function finishGame() {
             finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
         }
         setBestScoreLevelMode(currentSelectedLevel, finalValue)
-        await UpdateDataFireBase(userPath2,"BestScoreLevelMode",BestScoreLevelMode);
+        await UpdateDataFireBase("BestScoreLevelMode",BestScoreLevelMode);
         endGame()
     }
 }
