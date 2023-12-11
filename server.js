@@ -81,12 +81,11 @@ app.post('/api/getValue', async (req, res) => {
 
 app.post('/api/updateData', async (req, res) => {
   try {
-    const {key, newData } = req.body;
+    const { key, newData } = req.body;
     let { token } = req.headers;
     const checkToken = await admin.auth().verifyIdToken(token);
     const uid = checkToken.uid;
     const path = `users/${uid}`
-    console.log("path: ", path, "----", key)
     // Create a reference to the data location in Firestore
     const dataRef = ref(db, path);
 
@@ -98,7 +97,9 @@ app.post('/api/updateData', async (req, res) => {
     console.log("Data updated successfully");
     res.status(200).json({ message: 'Data updated successfully' });
   } catch (error) {
-    console.log("Error updating data:", error);
+    if (error.code === 'auth/id-token-expired') {
+      return res.status(401).json({ error: error });
+    }
     res.status(500).json({ error: 'Internal Server Error', details: error });
   }
 });

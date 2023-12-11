@@ -5,19 +5,8 @@ import { UserStorage, getStore, setStore } from "./StoragetokenFunction.js";
 
 if (localStorage.getItem(UserStorage) == null) {
     window.location.href = '../login.html';
-} else {
-    var token = getStore(UserStorage);
-
-    var uid = await decodeToken(token)
-    if (uid) {
-        setNewUID(uid.uid)
-    } else {
-        // token = await getRefreshUserToken();
-        // setStore(UserStorage, { token });
-        // window.location.reload();
-    }
-
 }
+
 
 
 

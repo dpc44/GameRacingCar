@@ -9,7 +9,9 @@ import { getDatabase, ref, set, update, get } from "https://www.gstatic.com/fire
 import { firebaseConfig } from "./FireBaseConfig.js";
 import { UserStorage, setStore } from "./StoragetokenFunction.js";
 
-
+if (localStorage.getItem(UserStorage) !== null) {
+    window.location.href = '../index.html';
+}
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

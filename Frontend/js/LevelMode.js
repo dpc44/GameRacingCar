@@ -228,7 +228,6 @@ export function playerarea2() {
 
 
         turnOffInternal();
-        document.getElementById('ScoreLinePause').innerHTML = `Score: ${counter * 10}`;
         PauseScreen.style.display = 'block';
     }
 }

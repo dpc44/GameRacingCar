@@ -1,7 +1,7 @@
 import { newUID, setNewUID } from "./FireBaseConfig.js";
 import { GetValueFireBase, UpdateDataFireBase } from "./FireBaseFunctions.js";
 import { init2, playerarea2 } from "./LevelMode.js";
-
+import { checkPoliceSound, negativeSound, policeSound, positiveSound, setCheckPoliceSoundPause, speedupSound } from "./audio.js"
 import {
     UpdateCash,
     UpdateUpgradeSkill,
@@ -363,6 +363,7 @@ function resume() {
     //---------pause--------------
     setPlayer('pause', !player.pause);
 
+
     let PauseScreen = document.getElementById('PauseScreen');
 
     pauseTime = Date.now();
@@ -375,6 +376,10 @@ function resume() {
 
     //---------resume-------------
     if (player.start && !player.pause) {
+        if (checkPoliceSound) {
+            policeSound.play();
+            setCheckPoliceSoundPause(false);
+        }
         setPlayer('start', true);
 
         PauseScreen.style.display = 'none';
@@ -470,7 +475,7 @@ function resume() {
 export async function endGame() {
 
     setPlayer('start', false);
-    document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
+
     GameOverScreen.style.display = 'block';
     let CashValue = (counter * 5) + parseInt(startCashNumber, 10);
     const field = `BestScoreChallengeMode`;
@@ -481,7 +486,7 @@ export async function endGame() {
 
     if (selectedValue == 0) {
 
-
+        document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
 
         var checkvalue = await GetValueFireBase(field);
 
@@ -506,6 +511,9 @@ export async function endGame() {
         //     setBestScoreChallengeMode(bestvalue);
         //     setStore(storageChallengeMode, BestScoreChallengeMode)
         // }
+    } else {
+
+        document.getElementById('ScoreLine').innerHTML = `Best Record: ${BestScoreLevelMode[currentSelectedLevel]}`;
     }
     setCounter(0);
 
@@ -547,42 +555,46 @@ function keyUp(ev) {
 
 
 function handleMouseDown(event) {
-    if (event.button === 0) {
-        setMouseDown(true);
-        if (isSlow == false) {
+    if (player.start == true) {
+        if (event.button === 0) {
+            setMouseDown(true);
+            if (isSlow == false) {
+                speedupSound.play();
+                if (selectedValue == 0) {
 
-            if (selectedValue == 0) {
+                    let maxSpeed = player.maxSpeed;
+                    setTempPlaySpeed(player.speed);
+                    setPlayer('speed', maxSpeed);
 
-                let maxSpeed = player.maxSpeed;
-                setTempPlaySpeed(player.speed);
-                setPlayer('speed', maxSpeed);
-
-            } else {
-                let maxSpeed = playerMaxSpeedArray[currentSelectedLevel]
-                setTempPlaySpeed(playerSpeedArray[currentSelectedLevel])
-                setPlayerSpeedArray(currentSelectedLevel, maxSpeed);
-                setTempEnemySpeed(enemySpeedArray[currentSelectedLevel])
-                let tempEnemy = enemySpeedArray[currentSelectedLevel] + 1
-                setEnemySpeedArray(currentSelectedLevel, tempEnemy)
+                } else {
+                    let maxSpeed = playerMaxSpeedArray[currentSelectedLevel]
+                    setTempPlaySpeed(playerSpeedArray[currentSelectedLevel])
+                    setPlayerSpeedArray(currentSelectedLevel, maxSpeed);
+                    setTempEnemySpeed(enemySpeedArray[currentSelectedLevel])
+                    let tempEnemy = enemySpeedArray[currentSelectedLevel] + 1
+                    setEnemySpeedArray(currentSelectedLevel, tempEnemy)
+                }
             }
+
+
         }
-
-
     }
+
 }
 
 function handleMouseUp(event) {
     if (event.button === 0) {
         setMouseDown(false);
         if (isSlow == false) {
+            speedupSound.stop();
             if (selectedValue == 0) {
                 setPlayer('speed', tempPlaySpeed)
             } else {
                 setPlayerSpeedArray(currentSelectedLevel, tempPlaySpeed)
                 setEnemySpeedArray(currentSelectedLevel, tempEnemySpeed)
             }
-        }else{
-            
+        } else {
+
         }
 
     }
@@ -649,6 +661,7 @@ export function moveVehicles(playerCar) {
             playerCarBound.top > otherCarBound.bottom ||
             playerCarBound.right < otherCarBound.left ||
             playerCarBound.left > otherCarBound.right)) {
+            negativeSound.play();
             if (selectedValue == 0) {
                 if (timeLeft >= 0) {
                     timeLeft -= 5;
@@ -789,7 +802,7 @@ function getGas(playerCar) {
         playerCarBound.top > gasBound.bottom ||
         playerCarBound.right < gasBound.left ||
         playerCarBound.left > gasBound.right)) {
-
+        positiveSound.play();
         timeLeft += 10;
         if (timeLeft > 30) {
             timeLeft = 30;
@@ -808,6 +821,7 @@ export function getStar(playerCar, star) {
         playerCarBound.top > starBound.bottom ||
         playerCarBound.right < starBound.left ||
         playerCarBound.left > starBound.right)) {
+        positiveSound.play();
         if (randomStar === 0) {
             createBarrier();
         } else if (randomStar === 1) {
@@ -834,7 +848,7 @@ export function getMoney(playerCar, money) {
         playerCarBound.top > moneyBound.bottom ||
         playerCarBound.right < moneyBound.left ||
         playerCarBound.left > moneyBound.right)) {
-
+        positiveSound.play();
         if (IsX2Score == true) {
             setCounter(counter + 10 + (skills[2].effect * 2))
             score.innerHTML = `Score: ${counter * 10}`;
@@ -861,6 +875,10 @@ export function MoveRisk(playerCar, risk) {
     if (currentTop >= 750) {
         risk.remove();
         UsedRiskTime = 0;
+        if (randomRisk == 1) {
+            policeSound.stop();
+            setCheckPoliceSoundPause(false);
+        }
     }
 
     if (randomRisk == 0) {
@@ -895,6 +913,8 @@ export function MoveRisk(playerCar, risk) {
         playerCarBound.top > riskBound.bottom ||
         playerCarBound.right < riskBound.left ||
         playerCarBound.left > riskBound.right)) {
+        negativeSound.play();
+        speedupSound.stop();
         if (randomRisk === 0) {
             setPlayer("speed", player.speed - 2)
             setPlayer("maxSpeed", player.maxSpeed - 2)
@@ -908,6 +928,7 @@ export function MoveRisk(playerCar, risk) {
 
             }, 3000);
         } else if (randomRisk === 1) {
+            policeSound.stop();
             endGame();
         }
 
@@ -1010,10 +1031,10 @@ function playerarea() {
     }
 
     if (player.pause == true) {
-
+        policeSound.pause();
+        speedupSound.stop();
         window.cancelAnimationFrame(playerarea)
         turnOffInternal();
-        document.getElementById('ScoreLinePause').innerHTML = `Score: ${counter * 10}`;
         PauseScreen.style.display = 'block';
     }
 }
@@ -1077,6 +1098,9 @@ export function CreateRisk() {
 
         risk = document.createElement('div');
         risk.setAttribute('class', 'police');
+        policeSound.play();
+
+        setCheckPoliceSoundPause(true);
         let x;
         if (selectedValue == 0) {
             x = numberOfEnemy[LevelEnemy] + 1;

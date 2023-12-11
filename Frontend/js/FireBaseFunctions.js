@@ -132,6 +132,7 @@ export async function decodeToken(token) {
 
 axios.interceptors.response.use(response => response, async error => {
     if (error.response.data.error.code === "auth/id-token-expired") {
+        console.log("test update token expiration")
         var token = await getRefreshUserToken();
         setStore(UserStorage, {token});
         // window.location.reload();
