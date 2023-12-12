@@ -8,11 +8,12 @@ import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic
 import { UserStorage, getStore, setStore } from "./StoragetokenFunction.js";
 
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = `http://localhost:3000`;
+const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com/';;
+console.log("BASE_URL: ", BASE_URL)
 const tokenObject = JSON.parse(localStorage.getItem(UserStorage));
 const options = {
     headers: {
@@ -121,7 +122,7 @@ export async function getAllUsersData() {
 
 export async function decodeToken(token) {
     try {
-        const response = await axios.post('http://localhost:3000/decodeToken', token);
+        const response = await axios.post(`${BASE_URL}/decodeToken`, token);
         // console.log("decodeToken: ", response.data)
         return response.data;  // You may want to return the decoded token or other relevant data
     } catch (error) {
