@@ -70,14 +70,17 @@ app.post('/api/getValue', async (req, res) => {
   try {
     const { field } = req.body; // Retrieve path from the request body
     let { token } = req.headers;
+    
     const checkToken = await admin.auth().verifyIdToken(token);
+    
     const uid = checkToken.uid;
     const path = `users/${uid}/${field}`;
-
+    
     // Example path: users/rqQ0lLQDiQTs2W6ckJWh7IZJr792/BestScoreChallengeMode
     const dataRef = ref(db, path);
     const snapshot = await get(dataRef);
     const data = snapshot.val();
+    console.log("fields: ", data)
     res.json(data);
   } catch (error) {
     console.error('Firebase error:', error);

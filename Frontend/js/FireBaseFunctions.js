@@ -12,7 +12,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 // const BASE_URL = `http://localhost:3000`;
-const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com/';;
+const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com';
 console.log("BASE_URL: ", BASE_URL)
 const tokenObject = JSON.parse(localStorage.getItem(UserStorage));
 const options = {
@@ -43,7 +43,6 @@ export async function getRefreshUserToken() {
 
 export async function GetValueFireBase(field) {
     try {
-
         const response = await axios.post(`${BASE_URL}/api/getValue`, { field }, options);
         // Assuming the server returns data in the response.data property
         return response.data;
