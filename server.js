@@ -5,7 +5,7 @@ import admin from 'firebase-admin'
 import { getDatabase, ref, get, update } from 'firebase/database';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { credentials } from './credentials.js'
+import { credentials } from './credentials/credentials.js'
 import cors from 'cors';
 
 admin.initializeApp({
