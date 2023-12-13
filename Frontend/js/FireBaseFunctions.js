@@ -25,10 +25,12 @@ const options = {
 export async function getRefreshUserToken() {
     return new Promise((resolve, reject) => {
         onAuthStateChanged(auth, async (user) => {
+            console.log("user: ", user)
             if (!user) {
                 reject("No user found");
             }
             try {
+                console.log("?????? before getIDtoken")
                 const token = await user.getIdToken(true);
                 resolve(token);
             } catch (error) {
