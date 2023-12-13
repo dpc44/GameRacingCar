@@ -80,7 +80,6 @@ app.post('/api/getValue', async (req, res) => {
     const dataRef = ref(db, path);
     const snapshot = await get(dataRef);
     const data = snapshot.val();
-    console.log("fields: ", data)
     res.json(data);
   } catch (error) {
     console.error('Firebase error:', error);
@@ -108,8 +107,6 @@ app.post('/api/updateData', async (req, res) => {
     const dataUpdate = { [key]: newData };
     // Update the data in Firestore
     await update(dataRef, dataUpdate);
-
-    console.log("Data updated successfully");
     res.status(200).json({ message: 'Data updated successfully' });
   } catch (error) {
     if (error.code === 'auth/id-token-expired') {

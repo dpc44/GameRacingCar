@@ -222,7 +222,6 @@ export function setHearts(value) {
 }
 
 export function setBestScoreLevelMode(index, value) {
-    console.log("value: ", index,"++++", value)
     BestScoreLevelMode[index] = value;
 }
 

@@ -13,7 +13,6 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 // const BASE_URL = `http://localhost:3000`;
 const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com';
-console.log("BASE_URL: ", BASE_URL)
 const tokenObject = JSON.parse(localStorage.getItem(UserStorage));
 const options = {
     headers: {
@@ -25,12 +24,10 @@ const options = {
 export async function getRefreshUserToken() {
     return new Promise((resolve, reject) => {
         onAuthStateChanged(auth, async (user) => {
-            console.log("user: ", user)
             if (!user) {
                 reject("No user found");
             }
             try {
-                console.log("?????? before getIDtoken")
                 const token = await user.getIdToken(true);
                 resolve(token);
             } catch (error) {
@@ -64,7 +61,7 @@ export async function UpdateDataFireBase(key, newData) {
         // Assuming options is defined before this function is called
         const response = await axios.post(`${BASE_URL}/api/updateData`, {key, newData }, options);
         // Assuming the server returns data in the response.data property
-        console.log("response: ", response)
+
     } catch (error) {
         // Log details of the error response
         if (error.response) {
@@ -124,7 +121,6 @@ export async function getAllUsersData() {
 export async function decodeToken(token) {
     try {
         const response = await axios.post(`${BASE_URL}/decodeToken`, token);
-        // console.log("decodeToken: ", response.data)
         return response.data;  // You may want to return the decoded token or other relevant data
     } catch (error) {
         console.error('Error decoding token:', error);
@@ -134,10 +130,10 @@ export async function decodeToken(token) {
 
 axios.interceptors.response.use(response => response, async error => {
     if (error.response.data.error.code === "auth/id-token-expired") {
-        console.log("test update token expiration")
         var token = await getRefreshUserToken();
         setStore(UserStorage, {token});
         // window.location.reload();
+        console.log("token: ", token)
         const originalRequest = error.config;
         originalRequest.headers['token'] = token;
         originalRequest._retry = originalRequest._retry || false;
