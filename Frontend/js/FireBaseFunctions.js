@@ -25,10 +25,12 @@ export async function getRefreshUserToken() {
     return new Promise((resolve, reject) => {
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
+                console.log("No user found")
                 reject("No user found");
             }
             try {
-                const token = await user.getIdToken(true);
+                const token = await user.getIdToken();
+                console.log("refreshed token")
                 resolve(token);
             } catch (error) {
                 console.error("Error refreshing user token:", error);
@@ -59,7 +61,7 @@ export async function GetValueFireBase(field) {
 export async function UpdateDataFireBase(key, newData) {
     try {
         // Assuming options is defined before this function is called
-        const response = await axios.post(`${BASE_URL}/api/updateData`, {key, newData }, options);
+        const response = await axios.post(`${BASE_URL}/api/updateData`, { key, newData }, options);
         // Assuming the server returns data in the response.data property
 
     } catch (error) {
@@ -128,16 +130,17 @@ export async function decodeToken(token) {
     }
 }
 
+
 axios.interceptors.response.use(response => response, async error => {
     if (error.response.data.error.code === "auth/id-token-expired") {
         var token = await getRefreshUserToken();
-        setStore(UserStorage, {token});
+        setStore(UserStorage, { token });
         // window.location.reload();
-        console.log("token: ", token)
         const originalRequest = error.config;
         originalRequest.headers['token'] = token;
         originalRequest._retry = originalRequest._retry || false;
         if (!originalRequest._retry) {
+            console.log("retry", originalRequest)
             originalRequest._retry = true;
             return axios(originalRequest);
         }
