@@ -23,7 +23,5 @@ export let speedupSound = new Howl({
 export let checkPoliceSound = false;
 
 export function setCheckPoliceSoundPause(value){
-    console.log("set set set")
     checkPoliceSound = value;
-    console.log(checkPoliceSound)
 }

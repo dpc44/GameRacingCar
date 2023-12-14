@@ -44,6 +44,7 @@ export async function getRefreshUserToken() {
 
 export async function GetValueFireBase(field) {
     try {
+        console.log("getValue ", field)
         const response = await axios.post(`${BASE_URL}/api/getValue`, { field }, options);
         // Assuming the server returns data in the response.data property
         return response.data;
