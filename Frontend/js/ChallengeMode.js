@@ -1,5 +1,5 @@
 import { newUID, setNewUID } from "./FireBaseConfig.js";
-import { GetValueFireBase, UpdateDataFireBase } from "./FireBaseFunctions.js";
+import { GetValueFireBase, UpdateDataFireBase, UpdateDataFireBaseMany } from "./FireBaseFunctions.js";
 import { init2, playerarea2 } from "./LevelMode.js";
 import { checkPoliceSound, negativeSound, policeSound, positiveSound, setCheckPoliceSoundPause, speedupSound } from "./audio.js"
 import {
@@ -478,39 +478,17 @@ export async function endGame() {
 
     GameOverScreen.style.display = 'block';
     let CashValue = (counter * 5) + parseInt(startCashNumber, 10);
-    const field = `BestScoreChallengeMode`;
     await UpdateDataFireBase("startCashNumber", CashValue);
     UpdateCash();
     clearStats();
     turnOffInternal();
-
     if (selectedValue == 0) {
-
         document.getElementById('ScoreLine').innerHTML = `Score: ${counter * 10}`;
-
-        var checkvalue = await GetValueFireBase(field);
-
-
-        if ((counter * 10) > checkvalue) {
-
+        if ((counter * 10) > BestScoreChallengeMode) {
             let bestvalue = counter * 10;
             setBestScoreChallengeMode(bestvalue);
-            await UpdateDataFireBase("BestScoreChallengeMode", BestScoreChallengeMode);
+            await UpdateDataFireBase("BestScoreChallengeMode", BestScoreChallengeMode);       
         }
-
-        // if (localStorage.getItem(storageChallengeMode) !== null) {
-        //     let checkvalue = getStore(storageChallengeMode);
-        //     if ((counter * 10) > checkvalue) {
-
-        //         let bestvalue = counter * 10;
-        //         setBestScoreChallengeMode(bestvalue);
-        //         setStore(storageChallengeMode, BestScoreChallengeMode)
-        //     }
-        // } else {
-        //     let bestvalue = counter * 10;
-        //     setBestScoreChallengeMode(bestvalue);
-        //     setStore(storageChallengeMode, BestScoreChallengeMode)
-        // }
     } else {
 
         document.getElementById('ScoreLine').innerHTML = `Best Record: ${BestScoreLevelMode[currentSelectedLevel]}`;
@@ -1158,7 +1136,12 @@ function createBarrier() {
         barrier.classList.add('barrier-fade');
     }, 5000 + (5000 * skills[0].effect / 100));
 }
-function init() {
+async function init() {
+    const field = `BestScoreChallengeMode`;
+    let BestRecord = await GetValueFireBase(field)
+    setBestScoreChallengeMode(BestRecord);
+    document.querySelector('.best').innerHTML = `Best Record: ${BestScoreChallengeMode}`;
+
     roadarea.innerHTML = "";
     player.start = true;
     startTimer();
@@ -1212,22 +1195,7 @@ document.getElementById('RetryButton').onclick = async () => {
         cash.innerHTML = `Cash: 0`;
         level.innerHTML = `Level: 0`;
         setCurrentLevel(0);
-
-
         //---------Best Score--------------
-        // let dataChallenge = getStore(storageChallengeMode);
-        // document.querySelector('.best').innerHTML = `Best Record: ${dataChallenge}`;
-        const field = `BestScoreChallengeMode`;
-        await GetValueFireBase(field)
-            .then(data => {
-                document.querySelector('.best').innerHTML = `Best Record: ${data}`;
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
-
-
-
         setAddScore(100);
         setLevelCondition(0);
         setLevelCounter(0);
@@ -1238,21 +1206,6 @@ document.getElementById('RetryButton').onclick = async () => {
         GameOverScreen.style.display = 'none';
         score.innerHTML = `Score: 0`;
         cash.innerHTML = `Cash: 0`;
-        // let dataLevel = getStore(storageLevelMode)
-        // document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
-
-        const field = `BestScoreLevelMode`;
-        await GetValueFireBase(field)
-            .then(data => {
-                setAllValueBestLevelScore(data);
-                document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
-
-
-
         document.querySelector('.TimeClock').innerHTML = `00:00`
         init2()
     }
@@ -1261,22 +1214,7 @@ document.getElementById('RetryButton').onclick = async () => {
 document.getElementById('StartButton').onclick = async () => {
     setSelectedValue(document.getElementById('ModeGame').value)
 
-    if (selectedValue == 0) {
-
-        const field = `BestScoreChallengeMode`;
-        await GetValueFireBase(field)
-            .then(data => {
-                document.querySelector('.best').innerHTML = `Best Record: ${data}`;
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
-        // if (localStorage.getItem(storageChallengeMode) !== null) {
-        //     let dataChallenge = getStore(storageChallengeMode);
-        //     document.querySelector('.best').innerHTML = `Best Record: ${dataChallenge}`;
-        // } else {
-        //     document.querySelector('.best').innerHTML = `Best Record: 0`;
-        // }
+    if (selectedValue == 0) {       
         level.innerHTML = `Level: 0`;
         score.innerHTML = `Score: 0`;
         cash.innerHTML = `Cash: 0`;
@@ -1292,24 +1230,7 @@ document.getElementById('StartButton').onclick = async () => {
         document.querySelector('.boardTime').style.display = 'block';
         StartGameScreen.style.display = 'none';
         setCurrentSelectedLevel(+document.getElementById('LevelPart').value)
-
-        const field = `BestScoreLevelMode`;
-        await GetValueFireBase(field)
-            .then(data => {
-                setAllValueBestLevelScore(data);
-                document.querySelector('.best').innerHTML = `Best Record: ${data[currentSelectedLevel]}`;
-            })
-            .catch(error => {
-                console.log("Error:", error);
-            });
-
-        // if (localStorage.getItem(storageLevelMode) !== null) {
-        //     let dataLevel = getStore(storageLevelMode)
-        //     document.querySelector('.best').innerHTML = `Best Record: ${dataLevel[currentSelectedLevel]}`;
-        // } else {
-        //     document.querySelector('.best').innerHTML = `Best Record: 00:00`;
-        // }
-
+        document.querySelector('.best').innerHTML = `Best Record: ${BestScoreLevelMode[currentSelectedLevel]}`;
         document.querySelector('.GoalScore').innerHTML = `Goal ${finishedConditionArray[currentSelectedLevel]}`;
         level.innerHTML = `Level: ${currentSelectedLevel + 1}`;
         init2()

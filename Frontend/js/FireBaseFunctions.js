@@ -74,6 +74,22 @@ export async function UpdateDataFireBase(key, newData) {
     }
 }
 
+export async function UpdateDataFireBaseMany(newData) {
+    try {
+        console.log("call: ", newData);
+        // Assuming options is defined before this function is called
+        const response = await axios.post(`${BASE_URL}/api/updateDataMany`, { newData } , options);
+        // Assuming the server returns data in the response.data property
+
+    } catch (error) {
+        // Log details of the error response
+        if (error.response) {
+            console.error('Error response:', error.response.data);
+        }
+
+        throw error;
+    }
+}
 function signOutUser() {
     signOut(auth)
         .then(() => {

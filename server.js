@@ -116,7 +116,29 @@ app.post('/api/updateData', async (req, res) => {
   }
 });
 
+app.post('/api/updateDataMany', async (req, res) => {
+  try {
+    const { newData } = req.body;
+    console.log(newData)
+    let { token } = req.headers;
+    const checkToken = await admin.auth().verifyIdToken(token);
+    const uid = checkToken.uid;
+    const path = `users/${uid}`;
+    
+    // Create a reference to the data location in Firestore
+    const dataRef = ref(db, path);
 
+    // Update the entire newData object in Firestore
+    await update(dataRef, newData);
+    
+    res.status(200).json({ message: 'Data updated successfully' });
+  } catch (error) {
+    if (error.code === 'auth/id-token-expired') {
+      return res.status(401).json({ error: error });
+    }
+    res.status(500).json({ error: 'Internal Server Error', details: error });
+  }
+});
 //---------------------------------------------------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

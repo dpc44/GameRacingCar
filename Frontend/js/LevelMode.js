@@ -48,6 +48,7 @@ import {
     randomRisk,
     randomStar,
     roadarea,
+    setAllValueBestLevelScore,
     setBestScoreLevelMode,
     setHearts,
     setPlayer,
@@ -82,15 +83,11 @@ function formatTime(currentTime) {
 async function finishGame() {
 
     if (counter * 10 >= finishedConditionArray[currentSelectedLevel]) {
-        
-        setBestScoreLevelMode(currentSelectedLevel, formatTime(Date.now() - startCountTime))
-        const field = `BestScoreLevelMode`;
-        var checkvalue = await GetValueFireBase(field)
         let finalValue;
-        if (checkvalue[currentSelectedLevel] === "00:00") {
-            finalValue = BestScoreLevelMode[currentSelectedLevel];
+        if (BestScoreLevelMode[currentSelectedLevel] === "00:00") {
+            finalValue = formatTime(Date.now() - startCountTime);
         } else {
-            finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], checkvalue[currentSelectedLevel])
+            finalValue = compareTimes(BestScoreLevelMode[currentSelectedLevel], formatTime(Date.now() - startCountTime))
         }
         setBestScoreLevelMode(currentSelectedLevel, finalValue)
         await UpdateDataFireBase("BestScoreLevelMode",BestScoreLevelMode);
@@ -232,7 +229,12 @@ export function playerarea2() {
     }
 }
 
-export function init2() {
+export async function init2() {
+
+    const field = `BestScoreLevelMode`;
+    let BestRecord = await GetValueFireBase(field)
+    setAllValueBestLevelScore(BestRecord);
+    document.querySelector('.best').innerHTML = `Best Record: ${BestScoreLevelMode[currentSelectedLevel]}`;
     // Clear the HTML content of the roadarea
     roadarea.innerHTML = "";
 
