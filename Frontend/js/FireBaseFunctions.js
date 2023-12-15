@@ -29,7 +29,6 @@ export async function getRefreshUserToken() {
             }
             try {
                 const token = await user.getIdToken();
-                console.log("refreshed token")
                 resolve(token);
             } catch (error) {
                 console.error("Error refreshing user token:", error);
