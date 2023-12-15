@@ -13,12 +13,11 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 // const BASE_URL = `http://localhost:3000`;
 const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com';
-const tokenObject = JSON.parse(localStorage.getItem(UserStorage));
-const options = {
-    headers: {
-        'token': tokenObject.token,
-    },
-};
+// const options = {
+//     headers: {
+//         'token': JSON.parse(localStorage.getItem(UserStorage)).token,
+//     },
+// };
 
 
 export async function getRefreshUserToken() {
@@ -44,7 +43,11 @@ export async function getRefreshUserToken() {
 
 export async function GetValueFireBase(field) {
     try {
-        console.log("getValue ", field)
+        const options = {
+            headers: {
+                'token': JSON.parse(localStorage.getItem(UserStorage)).token,
+            },
+        };
         const response = await axios.post(`${BASE_URL}/api/getValue`, { field }, options);
         // Assuming the server returns data in the response.data property
         return response.data;
@@ -61,6 +64,11 @@ export async function GetValueFireBase(field) {
 
 export async function UpdateDataFireBase(key, newData) {
     try {
+        const options = {
+            headers: {
+                'token': JSON.parse(localStorage.getItem(UserStorage)).token,
+            },
+        };
         // Assuming options is defined before this function is called
         const response = await axios.post(`${BASE_URL}/api/updateData`, { key, newData }, options);
         // Assuming the server returns data in the response.data property
@@ -77,7 +85,12 @@ export async function UpdateDataFireBase(key, newData) {
 
 export async function UpdateDataFireBaseMany(newData) {
     try {
-        console.log("call: ", newData);
+        const options = {
+            headers: {
+                'token': JSON.parse(localStorage.getItem(UserStorage)).token,
+            },
+        };
+
         // Assuming options is defined before this function is called
         const response = await axios.post(`${BASE_URL}/api/updateDataMany`, { newData } , options);
         // Assuming the server returns data in the response.data property
@@ -151,13 +164,14 @@ export async function decodeToken(token) {
 axios.interceptors.response.use(response => response, async error => {
     if (error.response.data.error.code === "auth/id-token-expired") {
         var token = await getRefreshUserToken();
+        let tokenstorage = getStore(UserStorage);
         setStore(UserStorage, { token });
+        tokenstorage = getStore(UserStorage);
         // window.location.reload();
         const originalRequest = error.config;
         originalRequest.headers['token'] = token;
         originalRequest._retry = originalRequest._retry || false;
         if (!originalRequest._retry) {
-            console.log("retry", originalRequest)
             originalRequest._retry = true;
             return axios(originalRequest);
         }

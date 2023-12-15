@@ -33,6 +33,7 @@ import {
 } from "./ChallengeMode.js";
 import { newUID } from "./FireBaseConfig.js";
 import { GetValueFireBase, UpdateDataFireBase } from "./FireBaseFunctions.js";
+import { policeSound, speedupSound } from "./audio.js";
 import {
     BestScoreLevelMode,
     carColor,
@@ -221,9 +222,9 @@ export function playerarea2() {
 
     }
     if (player.pause == true) {
+        policeSound.pause();
+        speedupSound.stop();
         window.cancelAnimationFrame(playerarea2)
-
-
         turnOffInternal();
         PauseScreen.style.display = 'block';
     }
