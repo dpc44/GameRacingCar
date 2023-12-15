@@ -473,7 +473,7 @@ function resume() {
     }
 }
 export async function endGame() {
-    
+    policeSound.stop();
     setPlayer('start', false);
 
     GameOverScreen.style.display = 'block';
