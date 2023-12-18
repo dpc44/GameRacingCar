@@ -12,7 +12,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 // const BASE_URL = `http://localhost:3000`;
-const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartrafficgame-ee9631e7d981.herokuapp.com';
+const BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://cartraffic-9ea0588cf714.herokuapp.com';
 // const options = {
 //     headers: {
 //         'token': JSON.parse(localStorage.getItem(UserStorage)).token,
