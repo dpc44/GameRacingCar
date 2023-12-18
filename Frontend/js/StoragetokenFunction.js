@@ -1,7 +1,6 @@
 //-------------------storage------------
 export const UserStorage = "TokenUserStore";
 export function setStore(name, data) {
-    console.log("setstore: ", name, "---",data)
     let sData = JSON.stringify(data);
     localStorage.setItem(name, sData);
 }

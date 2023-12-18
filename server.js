@@ -119,7 +119,6 @@ app.post('/api/updateData', async (req, res) => {
 app.post('/api/updateDataMany', async (req, res) => {
   try {
     const { newData } = req.body;
-    console.log(newData)
     let { token } = req.headers;
     const checkToken = await admin.auth().verifyIdToken(token);
     const uid = checkToken.uid;
